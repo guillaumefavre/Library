@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.guillaume.library" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_accueil" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AjoutActivity"
+            android:label="@string/title_activity_ajout" >
+        </activity>
+        <activity
+            android:name=".ListeCDActivity"
+            android:label="@string/title_activity_liste_cd" >
+        </activity>
+        <activity
+            android:name=".ScanCABActivity"
+            android:label="@string/title_activity_scan_cab" >
+        </activity>
+        <activity
+            android:name=".ListeLivresActivity"
+            android:label="@string/title_activity_liste_livres" >
+        </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail" >
+        </activity>
+    </application>
+
+</manifest>

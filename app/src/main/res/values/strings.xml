@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Library</string>
+    <string name="title_activity_accueil">Accueil</string>
+
+    <string name="hello_world">Welcome in Library !</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_ajout">AjoutActivity</string>
+
+    <string-array name="types_medias_array">
+        <item>Livre</item>
+        <item>CD</item>
+        <item>DVD</item>
+    </string-array>
+    <string name="title_activity_liste_cd">ListeCDActivity</string>
+    <string name="title_activity_scan_cab">ScanCABActivity</string>
+    <string name="title_activity_liste_livres">ListeLivresActivity</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+</resources>
