@@ -77,6 +77,10 @@ public class CD {
         this.titreAlbum = titreAlbum;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAnneSortie() {
         return anneSortie;
     }
