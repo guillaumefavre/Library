@@ -89,6 +89,10 @@ public class CD {
         return pochette;
     }
 
+    /**
+     *
+     * @param pochette
+     */
     public void setPochette(int pochette) {
         this.pochette = pochette;
     }
