@@ -61,6 +61,10 @@ public class CD {
         this.artiste = artiste;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTitreAlbum() {
         return titreAlbum;
     }
