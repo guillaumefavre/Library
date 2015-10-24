@@ -77,6 +77,10 @@ public class CD {
         return anneSortie;
     }
 
+    /**
+     *
+     * @param anneSortie
+     */
     public void setAnneSortie(int anneSortie) {
         this.anneSortie = anneSortie;
     }
