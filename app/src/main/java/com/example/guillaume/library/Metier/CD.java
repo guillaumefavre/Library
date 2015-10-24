@@ -65,6 +65,10 @@ public class CD {
         return titreAlbum;
     }
 
+    /**
+     *
+     * @param titreAlbum
+     */
     public void setTitreAlbum(String titreAlbum) {
         this.titreAlbum = titreAlbum;
     }
