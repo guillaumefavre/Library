@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,8 @@ public class ScanCABActivity extends AppCompatActivity {
 
     private TextView txvBookAuthor;
 
+    private ImageView imvCouvertureLivre;
+
 
     private LivreDAO livreDao;
 
@@ -63,6 +66,7 @@ public class ScanCABActivity extends AppCompatActivity {
 
         txvBookTitle = (TextView) findViewById(R.id.txv_book_title);
         txvBookAuthor = (TextView) findViewById(R.id.txv_book_author);
+        imvCouvertureLivre = (ImageView) findViewById(R.id.imvCouvertureLivre);
 
 
         // Ouverture de la BDD
@@ -77,6 +81,7 @@ public class ScanCABActivity extends AppCompatActivity {
                 lancerScan();
             }
         });
+
 
 
 
@@ -132,6 +137,9 @@ public class ScanCABActivity extends AppCompatActivity {
 
                 GoogleBooksAPI googleBooksAPI = new GoogleBooksAPI(this);
                 googleBooksAPI.execute(scanContent);
+
+//                DownloadCoverBook downloadCoverBook = new DownloadCoverBook(this);
+//                downloadCoverBook.execute("http://books.google.fr/books/content?id=SKdTtQAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api");
             }
             else{
                 Toast toast = Toast.makeText(this, "CAB non valide (pas un livre) !", Toast.LENGTH_SHORT);
@@ -176,5 +184,9 @@ public class ScanCABActivity extends AppCompatActivity {
         super.onPause();
     }
 
+
+    public ImageView getImvCouvertureLivre() {
+        return imvCouvertureLivre;
+    }
 
 }

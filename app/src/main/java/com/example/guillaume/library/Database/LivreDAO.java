@@ -64,6 +64,7 @@ public class LivreDAO {
         contentValues.put(DatabaseHelper.COL_TITRE, livre.getTitre());
         contentValues.put(DatabaseHelper.COL_AUTEUR, livre.getAuteur());
         contentValues.put(DatabaseHelper.COL_DESCRIPTION, livre.getDescription());
+        contentValues.put(DatabaseHelper.COL_COUVERTURE, livre.getCouverture());
         long insertId = database.insert(DatabaseHelper.TABLE_LIVRE, null, contentValues);
 
     }
@@ -73,7 +74,7 @@ public class LivreDAO {
         List<Livre> listeLivres = new ArrayList<Livre>();
 
 
-        String[] allColumns = { DatabaseHelper.COL_ID, DatabaseHelper.COL_TITRE, DatabaseHelper.COL_AUTEUR, DatabaseHelper.COL_DESCRIPTION };
+        String[] allColumns = { DatabaseHelper.COL_ID, DatabaseHelper.COL_TITRE, DatabaseHelper.COL_AUTEUR, DatabaseHelper.COL_DESCRIPTION, DatabaseHelper.COL_COUVERTURE };
 
 
         Cursor cursor = database.query(DatabaseHelper.TABLE_LIVRE, allColumns, null, null, null, null, null);
@@ -96,6 +97,7 @@ public class LivreDAO {
         livre.setTitre(cursor.getString(1));
         livre.setAuteur(cursor.getString(2));
         livre.setDescription(cursor.getString(3));
+        livre.setCouverture(cursor.getBlob(4));
         return livre;
     }
 }

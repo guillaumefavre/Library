@@ -1,5 +1,6 @@
 package com.example.guillaume.library.Metier;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,12 +28,20 @@ public class Livre implements Parcelable {
     private String description;
 
     /**
+     * Couverture du livre
+     */
+    private byte[] couverture;
+
+
+
+    /**
      * Constructeur
      * @param titre
      * @param auteur
      */
     public Livre(String titre, String auteur) {
         this.titre = titre;
+
         this.auteur = auteur;
     }
 
@@ -91,6 +100,15 @@ public class Livre implements Parcelable {
         this.description = description;
     }
 
+
+    public byte[] getCouverture() {
+        return couverture;
+    }
+
+    public void setCouverture(byte[] couverture) {
+        this.couverture = couverture;
+    }
+
     /**
      * Permet de regénérer l'objet
      */
@@ -101,6 +119,8 @@ public class Livre implements Parcelable {
             livre.setTitre(parcel.readString());
             livre.setAuteur(parcel.readString());
             livre.setDescription(parcel.readString());
+            livre.setCouverture(new byte[parcel.readInt()]);
+            parcel.readByteArray(livre.getCouverture());
             return livre;
         }
 
@@ -120,6 +140,8 @@ public class Livre implements Parcelable {
         parcel.writeString(titre);
         parcel.writeString(auteur);
         parcel.writeString(description);
+        parcel.writeInt(couverture.length);
+        parcel.writeByteArray(couverture);
     }
 
 

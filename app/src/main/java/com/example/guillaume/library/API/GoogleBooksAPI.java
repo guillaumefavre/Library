@@ -1,13 +1,18 @@
 package com.example.guillaume.library.API;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Database.LivreDAO;
+import com.example.guillaume.library.DownloadCoverBook;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.ScanCABActivity;
+import com.example.guillaume.library.UtilsBitmap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,9 +23,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -135,6 +142,19 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
                 livre.setAuteur(strAuteurs);
                 livre.setDescription(jsoVolumeInfo.getString("description"));
 
+
+                JSONObject jsoImageLinks = jsoVolumeInfo.getJSONObject("imageLinks");
+                String urlCover = jsoImageLinks.getString("smallThumbnail");
+
+
+                DownloadCoverBook downloadCoverBook = new DownloadCoverBook();
+                Bitmap couverture = downloadCoverBook.execute(urlCover).get();
+
+
+
+                livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+
+
                 livreDao.ajouterLivre(livre);
 
 
@@ -142,6 +162,10 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
 
 
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
                 e.printStackTrace();
             }
         }

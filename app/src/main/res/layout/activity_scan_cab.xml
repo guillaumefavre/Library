@@ -48,4 +48,10 @@
         android:textIsSelectable="true"
         android:layout_below="@id/txv_book_title"/>
 
+    <ImageView
+        android:id="@+id/imvCouvertureLivre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txv_book_author"/>
+
 </RelativeLayout>

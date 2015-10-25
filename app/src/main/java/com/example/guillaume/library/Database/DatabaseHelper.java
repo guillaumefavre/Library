@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Numéro de version de la BDD
      */
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     /**
      * Table Livre
@@ -45,11 +45,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public static final String COL_DESCRIPTION = "description";
 
+    /**
+     * Colonne couverture
+     */
+    public static final String COL_COUVERTURE = "couverture";
+
 
     // Création de la table livre
     private static final String CREATE_TABLE_LIVRE = "CREATE TABLE " + TABLE_LIVRE
             + "(" + COL_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_TITRE + " TEXT NOT NULL, " + COL_AUTEUR +" TEXT, " + COL_DESCRIPTION +" TEXT);";
+            + COL_TITRE + " TEXT NOT NULL, " + COL_AUTEUR +" TEXT, " + COL_DESCRIPTION +" TEXT, "+ COL_COUVERTURE +" BLOB);";
 
 
 

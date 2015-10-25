@@ -29,6 +29,12 @@
             android:id="@+id/txv_auteur_livre"
             android:hint="Auteur" />
 
+        <ImageView
+            android:id="@+id/imvCouvertureLivre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_rolling_stones_sticky_fingers"/>
+
 
         <TextView
             android:layout_width="wrap_content"

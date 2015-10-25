@@ -1,14 +1,23 @@
 package com.example.guillaume.library;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Metier.Livre;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -23,6 +32,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView txvDescription;
 
+    private ImageView imvCouvertureLivre;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +45,8 @@ public class DetailActivity extends AppCompatActivity {
 
         txvAuteurLivre = (TextView) findViewById(R.id.txv_auteur_livre);
 
+        imvCouvertureLivre = (ImageView) findViewById(R.id.imvCouvertureLivre);
+
         txvDescription = (TextView) findViewById(R.id.txv_description_livre);
 
         Livre livre = (Livre) getIntent().getParcelableExtra(Constantes.LIVRE_SELECT);
@@ -41,6 +54,9 @@ public class DetailActivity extends AppCompatActivity {
         txvTitreLivre.setText(livre.getTitre());
         txvAuteurLivre.setText(livre.getAuteur());
         txvDescription.setText(livre.getDescription());
+        imvCouvertureLivre.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
+
+
     }
 
     @Override
@@ -63,5 +79,9 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public ImageView getImvCouvertureLivre() {
+        return imvCouvertureLivre;
     }
 }
