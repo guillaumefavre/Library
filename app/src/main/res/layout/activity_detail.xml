@@ -9,44 +9,54 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.guillaume.library.DetailActivity">
 
+
     <LinearLayout
         android:id="@+id/layoutLivre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txv_titre_livre"
-            android:hint="Titre" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txv_auteur_livre"
-            android:hint="Auteur" />
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imvCouvertureLivre"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_rolling_stones_sticky_fingers"/>
+            android:layout_height="wrap_content" />
 
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Année de parution Todo" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txv_description_livre"
-            android:hint="Description" />
+
+            <TextView
+                android:id="@+id/txv_titre_livre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txv_auteur_livre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Année de parution Todo" />
+
+    <TextView
+        android:id="@+id/txv_description_livre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Description" />
+
 
 </LinearLayout>

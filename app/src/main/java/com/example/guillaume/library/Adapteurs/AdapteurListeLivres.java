@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.R;
+import com.example.guillaume.library.UtilsBitmap;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
             holder = new ViewHolder();
             holder.titre = (TextView) convertView.findViewById(R.id.titreLivre);
             holder.auteur = (TextView) convertView.findViewById(R.id.auteurLivre);
+            holder.couverture = (ImageView) convertView.findViewById(R.id.imvCouvertureLivre);
 
             convertView.setTag(holder);
         }
@@ -61,6 +63,13 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
         // Mise à jour des données de la ligne
         holder.titre.setText((CharSequence) livre.getTitre());
         holder.auteur.setText((CharSequence) livre.getAuteur());
+        if(livre.getCouverture() != null) {
+            holder.couverture.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
+        } else {
+            // TODO gérer couverture absente
+            holder.couverture.setImageBitmap(null);
+        }
+
 
 
         return convertView;
@@ -75,6 +84,8 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
         private TextView auteur;
 
         private TextView titre;
+
+        private ImageView couverture;
 
     }
 }

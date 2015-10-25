@@ -69,6 +69,7 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
+
             if(connection.getResponseCode() == 200) {
 
                 // ouverture connextion BDD
@@ -111,6 +112,8 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
     @Override
     protected void onPostExecute(JSONObject jsonObject) {
 
+        Livre livre = null;
+
         if(jsonObject == null) {
             // TODO traitement erreur
         } else {
@@ -137,29 +140,28 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
                 parentActivity.getTxvBookAuthor().setText(strAuteurs);
 
 
-                Livre livre = new Livre();
+                livre = new Livre();
                 livre.setTitre(jsoVolumeInfo.getString("title"));
                 livre.setAuteur(strAuteurs);
-                livre.setDescription(jsoVolumeInfo.getString("description"));
-
-
-                JSONObject jsoImageLinks = jsoVolumeInfo.getJSONObject("imageLinks");
-                String urlCover = jsoImageLinks.getString("smallThumbnail");
-
-
-                DownloadCoverBook downloadCoverBook = new DownloadCoverBook();
-                Bitmap couverture = downloadCoverBook.execute(urlCover).get();
+                if(jsoVolumeInfo.has("description")) {
+                    livre.setDescription(jsoVolumeInfo.getString("description"));
+                }
 
 
 
-                livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+                if(jsoVolumeInfo.has("imageLinks")) {
+                    JSONObject jsoImageLinks = jsoVolumeInfo.getJSONObject("imageLinks");
+                    if(jsoImageLinks.has("smallThumbnail")) {
+                        // Récupération de la couverture
+                        String urlCover = jsoImageLinks.getString("smallThumbnail");
+                        DownloadCoverBook downloadCoverBook = new DownloadCoverBook();
+                        Bitmap couverture = downloadCoverBook.execute(urlCover).get();
+                        livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+                    }
 
+                }
 
                 livreDao.ajouterLivre(livre);
-
-
-                livreDao.closeDatabase();
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -167,6 +169,11 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
+            } finally {
+
+
+
+                livreDao.closeDatabase();
             }
         }
 

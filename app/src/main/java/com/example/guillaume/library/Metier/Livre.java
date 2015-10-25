@@ -140,9 +140,11 @@ public class Livre implements Parcelable {
         parcel.writeString(titre);
         parcel.writeString(auteur);
         parcel.writeString(description);
-        parcel.writeInt(couverture.length);
-        parcel.writeByteArray(couverture);
-    }
+        if(couverture != null) {
+            parcel.writeInt(couverture.length);
+            parcel.writeByteArray(couverture);
+        }
 
+    }
 
 }
