@@ -56,7 +56,6 @@ public class DetailActivity extends AppCompatActivity {
         txvDescription.setText(livre.getDescription());
         imvCouvertureLivre.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
 
-
     }
 
     @Override
