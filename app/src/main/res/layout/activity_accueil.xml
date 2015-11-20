@@ -15,28 +15,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@mipmap/ic_book"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:elevation="4dp"/>
 
     <ImageButton
         android:id="@+id/btnMusique"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@mipmap/ic_music"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:elevation="4dp"/>
 
     <ImageButton
         android:id="@+id/btnFilm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@mipmap/ic_movie"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:elevation="4dp"/>
 
     <ImageButton
         android:id="@+id/btnCodeBarre"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@mipmap/ic_barcode"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:elevation="4dp"/>
 
 
 <!--    <android.support.design.widget.FloatingActionButton
