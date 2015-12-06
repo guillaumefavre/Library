@@ -122,60 +122,126 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
                 JSONObject jsObj1 = items.getJSONObject(0);
                 JSONObject jsoVolumeInfo = jsObj1.getJSONObject("volumeInfo");
 
-
-
-                JSONArray jsArrayauteurs = jsoVolumeInfo.getJSONArray("authors");
-
-                String strAuteurs = "";
-                for(int i=0; i < jsArrayauteurs.length(); i++) {
-                    if(i > 0) {
-                        strAuteurs = strAuteurs +", ";
-                    }
-                    strAuteurs = strAuteurs +jsArrayauteurs.get(i);
-                }
-
-                final ScanCABActivity parentActivity = (ScanCABActivity) callingActivity.get();
-
-                parentActivity.getTxvBookTitle().setText(jsoVolumeInfo.getString("title"));
-                parentActivity.getTxvBookAuthor().setText(strAuteurs);
-
-
                 livre = new Livre();
-                livre.setTitre(jsoVolumeInfo.getString("title"));
-                livre.setAuteur(strAuteurs);
-                if(jsoVolumeInfo.has("description")) {
-                    livre.setDescription(jsoVolumeInfo.getString("description"));
-                }
 
 
 
-                if(jsoVolumeInfo.has("imageLinks")) {
-                    JSONObject jsoImageLinks = jsoVolumeInfo.getJSONObject("imageLinks");
-                    if(jsoImageLinks.has("smallThumbnail")) {
-                        // Récupération de la couverture
-                        String urlCover = jsoImageLinks.getString("smallThumbnail");
-                        DownloadCoverBook downloadCoverBook = new DownloadCoverBook();
-                        Bitmap couverture = downloadCoverBook.execute(urlCover).get();
-                        livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
-                    }
 
-                }
+
+
+                // Récupération du titre
+                recupererTitre(livre, jsoVolumeInfo);
+
+                // Récupération des atuetrs du livre
+                recupererAuteurs(livre, jsoVolumeInfo);
+
+
+                // Récupération de la description
+                recupererDescription(livre, jsoVolumeInfo);
+
+                // Récupération de la couverture
+                recupererCouverture(livre, jsoVolumeInfo);
+
+                // TODO à supprimer
+                final ScanCABActivity parentActivity = (ScanCABActivity) callingActivity.get();
+                parentActivity.getTxvBookTitle().setText(jsoVolumeInfo.getString("title"));
 
                 livreDao.ajouterLivre(livre);
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } finally {
+            }  finally {
 
-
-
+                // Fermeture de la connexion à la BDD
                 livreDao.closeDatabase();
             }
         }
 
     }
+
+    /**
+     * Récupération du titre du livre
+     *
+     * @param livre
+     * @param jsoVolumeInfo
+     * @throws JSONException
+     */
+    private void recupererTitre(Livre livre, JSONObject jsoVolumeInfo) throws JSONException {
+        if(jsoVolumeInfo.has("title")) {
+            livre.setTitre(jsoVolumeInfo.getString("title"));
+        }
+    }
+
+
+    /**
+     * Récupération des auteurs du livre
+     *
+     * @param livre
+     * @param jsoVolumeInfo
+     * @throws JSONException
+     */
+    private void recupererAuteurs(Livre livre, JSONObject jsoVolumeInfo) throws JSONException {
+
+        if(jsoVolumeInfo.has("authors")) {
+            JSONArray jsArrayauteurs = jsoVolumeInfo.getJSONArray("authors");
+
+            String strAuteurs = "";
+
+            // Récupération des auteurs multiples
+            for(int i=0; i < jsArrayauteurs.length(); i++) {
+                if(i > 0) {
+                    strAuteurs = strAuteurs +", ";
+                }
+                strAuteurs = strAuteurs +jsArrayauteurs.get(i);
+            }
+
+            livre.setAuteur(strAuteurs);
+        }
+    }
+
+
+    /**
+     * Récupération de la description du livre
+     *
+     * @param livre
+     * @param jsoVolumeInfo
+     * @throws JSONException
+     */
+    private void recupererDescription(Livre livre, JSONObject jsoVolumeInfo) throws JSONException {
+        if(jsoVolumeInfo.has("description")) {
+            livre.setDescription(jsoVolumeInfo.getString("description"));
+        }
+    }
+
+
+
+    /**
+     * Récupération de la couverture du livre
+     *
+     * @param livre
+     * @param jsoVolumeInfo
+     * @throws JSONException
+     */
+    private void recupererCouverture(Livre livre, JSONObject jsoVolumeInfo) throws JSONException {
+        if(jsoVolumeInfo.has("imageLinks")) {
+            JSONObject jsoImageLinks = jsoVolumeInfo.getJSONObject("imageLinks");
+            if(jsoImageLinks.has("smallThumbnail")) {
+                // Récupération de la couverture
+                String urlCover = jsoImageLinks.getString("smallThumbnail");
+                DownloadCoverBook downloadCoverBook = new DownloadCoverBook();
+                Bitmap couverture = null;
+                try {
+                    couverture = downloadCoverBook.execute(urlCover).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+            }
+
+        }
+    }
+
+
 }
