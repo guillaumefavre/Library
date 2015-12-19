@@ -3,13 +3,10 @@ package com.example.guillaume.library.API;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.guillaume.library.Database.LivreDAO;
-import com.example.guillaume.library.DownloadCoverBook;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.ScanCABActivity;
 import com.example.guillaume.library.UtilsBitmap;
@@ -23,18 +20,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by guillaume on 26/09/15.
  */
-public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
+public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
 
     // WeakReference permet d'envoyer au GarbageCollector
     // l'objet si un appel téléphonique arrive par exemple
@@ -54,13 +48,14 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
 
 
     @Override
-    protected JSONObject doInBackground(String... bookURLs) {
+    protected Livre doInBackground(String... bookURLs) {
 
         URL url = null;
 
         int responseCode = 0;
 
-        JSONObject responseJson = null;
+
+        Livre livre = null;
 
 
         try {
@@ -87,7 +82,9 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
                     line = responseReader.readLine();
                 }
 
-                responseJson = new JSONObject(builder.toString());
+                JSONObject responseJson = new JSONObject(builder.toString());
+
+                livre = construireLivre(responseJson);
             }
 
 
@@ -106,12 +103,15 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
             e.printStackTrace();
         }
 
-        return responseJson;
+        return livre;
     }
 
-    @Override
-    protected void onPostExecute(JSONObject jsonObject) {
-
+    /**
+     *
+     * @param jsonObject
+     * @return
+     */
+    private Livre construireLivre(JSONObject jsonObject) {
         Livre livre = null;
 
         if(jsonObject == null) {
@@ -124,17 +124,11 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
 
                 livre = new Livre();
 
-
-
-
-
-
                 // Récupération du titre
                 recupererTitre(livre, jsoVolumeInfo);
 
                 // Récupération des atuetrs du livre
                 recupererAuteurs(livre, jsoVolumeInfo);
-
 
                 // Récupération de la description
                 recupererDescription(livre, jsoVolumeInfo);
@@ -157,7 +151,10 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
             }
         }
 
+        return livre;
+
     }
+
 
     /**
      * Récupération du titre du livre
@@ -228,16 +225,20 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, JSONObject> {
             if(jsoImageLinks.has("smallThumbnail")) {
                 // Récupération de la couverture
                 String urlCover = jsoImageLinks.getString("smallThumbnail");
-                DownloadCoverBook downloadCoverBook = new DownloadCoverBook();
                 Bitmap couverture = null;
+
+                InputStream in = null;
                 try {
-                    couverture = downloadCoverBook.execute(urlCover).get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                    in = new URL(urlCover).openStream();
+                    couverture = BitmapFactory.decodeStream(in);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+
+                if(couverture != null) {
+                    livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+                }
+
             }
 
         }

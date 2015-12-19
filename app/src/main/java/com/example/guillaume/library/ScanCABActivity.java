@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -128,18 +129,26 @@ public class ScanCABActivity extends AppCompatActivity {
             txvScanContent.setText("Contenu = "+scanContent);
             txvScanFormat.setText("Format = "+scanFormat);
 
-            if(scanContent!=null && scanFormat!=null && scanFormat.equalsIgnoreCase("EAN_13")){
+            if(scanContent!=null && scanFormat!=null) {
 
                 //book search
-//                String bookSearchString = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+scanContent+"&key=945859469628";
                 String bookSearchString = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+scanContent;
 
 
                 GoogleBooksAPI googleBooksAPI = new GoogleBooksAPI(this);
-                googleBooksAPI.execute(scanContent);
+                try {
+                    Livre result = googleBooksAPI.execute(scanContent).get();
 
-//                DownloadCoverBook downloadCoverBook = new DownloadCoverBook(this);
-//                downloadCoverBook.execute("http://books.google.fr/books/content?id=SKdTtQAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api");
+                    if(result == null) {
+
+
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
             }
             else{
                 Toast toast = Toast.makeText(this, "CAB non valide (pas un livre) !", Toast.LENGTH_SHORT);
