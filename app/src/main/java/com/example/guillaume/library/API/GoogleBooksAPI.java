@@ -52,11 +52,7 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
 
         URL url = null;
 
-        int responseCode = 0;
-
-
         Livre livre = null;
-
 
         try {
             url = new URL("https://www.googleapis.com/books/v1/volumes?q=isbn:" + bookURLs[0]);
@@ -66,10 +62,6 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
 
 
             if(connection.getResponseCode() == 200) {
-
-                // ouverture connextion BDD
-                livreDao = new LivreDAO(callingActivity.get());
-                livreDao.openDatabase();
 
                 InputStream inputStream = connection.getInputStream();
 
@@ -139,6 +131,10 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
                 // TODO : à supprimer
                 final ScanCABActivity parentActivity = (ScanCABActivity) callingActivity.get();
                 parentActivity.getTxvBookTitle().setText(jsoVolumeInfo.getString("title"));
+
+                // ouverture connextion BDD
+                livreDao = new LivreDAO(callingActivity.get());
+                livreDao.openDatabase();
 
                 livreDao.ajouterLivre(livre);
 
