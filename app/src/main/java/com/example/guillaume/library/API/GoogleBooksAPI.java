@@ -143,7 +143,10 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
             }  finally {
 
                 // Fermeture de la connexion à la BDD
-                livreDao.closeDatabase();
+                if(livreDao != null) {
+                    livreDao.closeDatabase();
+
+                }
             }
         }
 
