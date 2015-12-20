@@ -6,6 +6,11 @@ package com.example.guillaume.library.Metier;
 public class CD {
 
     /**
+     * Identifiant de l'album
+     */
+    private String idAlbum;
+
+    /**
      * Artiste ayant sorti l'album
      */
     private String artiste;
@@ -23,7 +28,14 @@ public class CD {
     /**
      * Pochette de l'album (int vers l'image mipmap)
      */
-    private int pochette;
+    private byte[] pochette;
+
+    /**
+     * Constructeur vide
+     */
+    public CD() {
+
+    }
 
     /**
      * Constructeur
@@ -41,12 +53,18 @@ public class CD {
      *
      * @param artiste
      * @param titreAlbum
-     * @param pochette
      */
     public CD(final String artiste, final String titreAlbum, final int pochette) {
         this.artiste = artiste;
         this.titreAlbum = titreAlbum;
-        this.pochette = pochette;
+    }
+
+    public String getIdAlbum() {
+        return idAlbum;
+    }
+
+    public void setIdAlbum(String idAlbum) {
+        this.idAlbum = idAlbum;
     }
 
     public String getArtiste() {
@@ -93,7 +111,7 @@ public class CD {
         this.anneSortie = anneSortie;
     }
 
-    public int getPochette() {
+    public byte[] getPochette() {
         return pochette;
     }
 
@@ -101,7 +119,7 @@ public class CD {
      *
      * @param pochette
      */
-    public void setPochette(int pochette) {
+    public void setPochette(byte[] pochette) {
         this.pochette = pochette;
     }
 }

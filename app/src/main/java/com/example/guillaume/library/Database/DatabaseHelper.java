@@ -50,6 +50,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public static final String COL_COUVERTURE = "couverture";
 
+    /**
+     * Table Livre
+     */
+    public static final String TABLE_CD = "CD";
+
+    /**
+     * Colonne id technique de la table CD
+     */
+    public static final String COL_CD_ID_TECHNIQUE = "_id";
+
+    /**
+     * Colonne identifiant album de la table CD
+     */
+    public static final String COL_CD_ID_ALBUM = "idAlbum";
+
+    /**
+     * Colonne artiste de la table CD
+     */
+    public static final String COL_CD_ARTISTE = "artiste";
+
+    /**
+     * Colonne titre de la table CD
+     */
+    public static final String COL_CD_TITRE_ALBUM = "titreAlbum";
+
+    /**
+     * Colonne année sortie de la table CD
+     */
+    public static final String COL_CD_ANNEE_SORTIE = "anneeSortie";
+
+    /**
+     * Colonne pochette de la table CD
+     */
+    public static final String COL_CD_POCHETTE = "pochette";
+
+
 
     // Création de la table livre
     private static final String CREATE_TABLE_LIVRE = "CREATE TABLE " + TABLE_LIVRE
@@ -57,6 +93,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COL_TITRE + " TEXT NOT NULL, " + COL_AUTEUR +" TEXT, " + COL_DESCRIPTION +" TEXT, "+ COL_COUVERTURE +" BLOB);";
 
 
+    // Création de la table CD
+    private static final String CREATE_TABLE_CD = "CREATE TABLE " + TABLE_CD
+            + "(" + COL_CD_ID_TECHNIQUE + "  INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_CD_ID_ALBUM + " TEXT NOT NULL UNIQUE, "
+            + COL_CD_TITRE_ALBUM + " TEXT NOT NULL, " + COL_CD_ARTISTE +" TEXT, " + COL_CD_ANNEE_SORTIE +" TEXT, "+ COL_CD_POCHETTE +" BLOB);";
 
 
     /**
@@ -71,6 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_LIVRE);
+        sqLiteDatabase.execSQL(CREATE_TABLE_CD);
     }
 
     @Override
@@ -79,6 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Suppression de la table
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_LIVRE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CD);
 
         // Création de la nouvelle version
         onCreate(sqLiteDatabase);

@@ -59,7 +59,7 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
         // Mise à jour des données de la ligne
         holder.nomArtiste.setText((CharSequence) cd.getArtiste());
         holder.titreAlbum.setText((CharSequence) cd.getTitreAlbum());
-        holder.pochette.setImageResource(cd.getPochette());
+        holder.pochette.setImageResource(cd.getPochette().hashCode());
 
 
         return convertView;
