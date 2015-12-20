@@ -47,7 +47,7 @@ public class ListeLivresActivity extends AppCompatActivity {
         livreDAO = new LivreDAO(this);
         livreDAO.openDatabase();
 
-        final List<Livre> listeLivres = livreDAO.selectionnerLivres();
+        listeLivres = livreDAO.selectionnerLivres();
 
 
         adapteurListeLivres = new AdapteurListeLivres(this, listeLivres);

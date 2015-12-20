@@ -48,7 +48,6 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
             holder = new ViewHolder();
             holder.nomArtiste = (TextView) convertView.findViewById(R.id.nomArtiste);
             holder.titreAlbum = (TextView) convertView.findViewById(R.id.titreAlbum);
-            holder.pochette = (ImageView) convertView.findViewById(R.id.imvPochetteAlbum);
 
             convertView.setTag(holder);
         }
@@ -59,7 +58,6 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
         // Mise à jour des données de la ligne
         holder.nomArtiste.setText((CharSequence) cd.getArtiste());
         holder.titreAlbum.setText((CharSequence) cd.getTitreAlbum());
-        holder.pochette.setImageResource(cd.getPochette().hashCode());
 
 
         return convertView;
@@ -75,6 +73,5 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
 
         private TextView titreAlbum;
 
-        private ImageView pochette;
     }
 }

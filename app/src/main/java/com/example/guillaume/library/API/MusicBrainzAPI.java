@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -44,20 +46,91 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
     @Override
     protected CD doInBackground(String... cdURLs) {
 
-        URL url = null;
+        String strUrl = "http://musicbrainz.org/ws/2/release?query=barcode:" + cdURLs[0] +"&fmt=json";
 
+        JSONObject responseJson = getJSONObjectFromURL(strUrl);
+
+        CD cd = construireCd(responseJson);
+
+        return cd;
+    }
+
+    /**
+     * Construction du CD à partir des données renvoyée par l'appel des URLs.
+     *
+     * @param responseJson
+     * @return
+     */
+    private CD construireCd(JSONObject responseJson) {
         CD cd = null;
 
-        try {
-            url = new URL("http://musicbrainz.org/ws/2/release?query=barcode:" + cdURLs[0]);
+        if(responseJson == null) {
+            // TODO traitement erreur
+        } else {
 
+            try {
+                JSONArray releases = responseJson.getJSONArray("releases");
+                JSONObject jsoRelease = releases.getJSONObject(0);
+
+
+                if(jsoRelease != null) {
+                    // Création du CD
+                    cd = new CD();
+
+                    // Récupération de l'id de l'album
+                    recupererIdAlbum(cd, jsoRelease);
+
+                    String url = "http://musicbrainz.org/ws/2/release-group/" + cd.getIdAlbum() +"?inc=artist-credits&fmt=json";
+
+                    JSONObject jsoReleaseGroup = getJSONObjectFromURL(url);
+
+                    // Récupération du titre de l'album
+                    recupererTitreAlbum(cd, jsoReleaseGroup);
+
+                    // Récupération de l'artiste de l'album
+                    recupererArtisteALbum(cd, jsoReleaseGroup);
+
+                    // Récupération de la date de sortie de l'album
+                    recupererDateSortieAlbum(cd, jsoReleaseGroup);
+
+                    // Ouverture de la connexion à la BDD
+                    cdDao = new CDDao(callingActivity.get());
+                    cdDao.openDatabase();
+
+                    // AJout du CD
+                    cdDao.ajouterCD(cd);
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return cd;
+    }
+
+
+    /**
+     * Méthode qui récupère l'objet JSON renvoyé par l'URL passé en apramètre.
+     *
+     * @param strUrl
+     * @return
+     */
+    private JSONObject getJSONObjectFromURL(String strUrl) {
+
+        JSONObject jsoRetour = null;
+
+        try {
+            URL url = new URL(strUrl);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
             InputStream inputStream = connection.getInputStream();
 
-            if(connection.getResponseCode() == 200) {
+            if (connection.getResponseCode() == 200) {
 
 
                 // Lecture de la réponse
@@ -69,38 +142,89 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
                     line = responseReader.readLine();
                 }
 
-                JSONObject responseJson = new JSONObject(builder.toString());
 
-                cd = construireCd(responseJson);
+                jsoRetour = new JSONObject(builder.toString());
 
             }
 
-
-
         } catch (MalformedURLException e) {
-            Log.d(getClass().getName(), "MalformedURLException lors de la récupération de la réponse de l'API Music Brainz");
             e.printStackTrace();
-        } catch (IOException e) {
-            Log.d(getClass().getName(), "IOException lors de la récupération de la réponse de l'API Music Brainz");
+        } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (JSONException e) {
-            Log.d(getClass().getName(), "JSONException lors de la récupération de la réponse de l'API Google Books");
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return cd;
+        return jsoRetour;
     }
 
-    private CD construireCd(JSONObject responseJson) {
-        CD cd = null;
 
-        if(responseJson == null) {
-            // TODO traitement erreur
-        } else {
+    /**
+     * Récupération de l'id de l'album dans le noeud release-group
+     *
+     * @param cd
+     * @param jsoRelease
+     * @throws JSONException
+     */
+    private void recupererIdAlbum(CD cd, JSONObject jsoRelease) throws JSONException {
+        if(jsoRelease.has("release-group")) {
+            JSONObject jsoReleaseGroup = jsoRelease.getJSONObject("release-group");
+            if(jsoReleaseGroup.has("id")) {
+                cd.setIdAlbum(jsoReleaseGroup.getString("id"));
+            }
+        }
+    }
+
+
+    /**
+     * Récupération du titre de l'album
+     *
+     * @param cd
+     * @param jsoReleaseGroup
+     * @throws JSONException
+     */
+    private void recupererTitreAlbum(CD cd, JSONObject jsoReleaseGroup) throws JSONException {
+            if(jsoReleaseGroup.has("title")) {
+                cd.setTitreAlbum(jsoReleaseGroup.getString("title"));
+            }
+    }
+
+
+    /**
+     * Récupération de la date de sortie de l'album
+     *
+     * @param cd
+     * @param jsoReleaseGroup
+     * @throws JSONException
+     */
+    private void recupererDateSortieAlbum(CD cd, JSONObject jsoReleaseGroup) throws JSONException {
+        if (jsoReleaseGroup.has("first-release-date")) {
+            cd.setAnneSortie(jsoReleaseGroup.getString("first-release-date"));
+        }
+    }
+
+    /**
+     * Récupération de l'artiste de l'album
+     *
+     * @param cd
+     * @param jsoReleaseGroup
+     * @throws JSONException
+     */
+    private void recupererArtisteALbum(CD cd, JSONObject jsoReleaseGroup) throws JSONException {
+        if (jsoReleaseGroup.has("artist-credit")) {
+            JSONArray jsArrayArtistes = jsoReleaseGroup.getJSONArray("artist-credit");
+
+            // On prend le premier artiste
+            // TODO : gérer albums écrits par plusieurs artistes
+            JSONObject jsoArtiste = jsArrayArtistes.getJSONObject(0);
+
+            if (jsoArtiste.has("name")) {
+                cd.setArtiste(jsoArtiste.getString("name"));
+            }
 
         }
-
-
-        return cd;
     }
+
 }

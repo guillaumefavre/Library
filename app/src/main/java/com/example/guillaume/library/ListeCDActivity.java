@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeCD;
+import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
 
 import java.util.ArrayList;
@@ -30,21 +31,22 @@ public class ListeCDActivity extends AppCompatActivity {
     private AdapteurListeCD adapteurListeCD;
 
 
+    /**
+     * CD Dao
+     */
+    private CDDao cdDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_cd);
 
+        // ouverture connextion BDD
+        cdDao = new CDDao(this);
+        cdDao.openDatabase();
 
 
-        listeCDs = new ArrayList<CD>();
-
-        for(int i = 0; i < 20; i++) {
-            listeCDs.add(new CD("Muse", "Origin of Symmetry", R.mipmap.ic_muse_origin_of_symmetry));
-            listeCDs.add(new CD("The Rolling Stones", "Sticky Fingers", R.mipmap.ic_rolling_stones_sticky_fingers));
-            listeCDs.add(new CD("AC/DC", "Highway to Hell", R.mipmap.ic_acdc_highway_to_hell));
-        }
+        listeCDs = cdDao.selectionnerCDs();
 
 
 

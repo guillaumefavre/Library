@@ -23,7 +23,7 @@ public class CD {
     /**
      * Année de sortie de l'album
      */
-    private int anneSortie;
+    private String anneSortie;
 
     /**
      * Pochette de l'album (int vers l'image mipmap)
@@ -99,7 +99,7 @@ public class CD {
      *
      * @return
      */
-    public int getAnneSortie() {
+    public String getAnneSortie() {
         return anneSortie;
     }
 
@@ -107,7 +107,7 @@ public class CD {
      *
      * @param anneSortie
      */
-    public void setAnneSortie(int anneSortie) {
+    public void setAnneSortie(String anneSortie) {
         this.anneSortie = anneSortie;
     }
 

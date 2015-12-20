@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Numéro de version de la BDD
      */
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
 
     /**
      * Table Livre

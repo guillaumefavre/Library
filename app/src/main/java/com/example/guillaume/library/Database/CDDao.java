@@ -62,7 +62,7 @@ public class CDDao {
     public void ajouterCD(CD cd) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper.COL_CD_ID_TECHNIQUE, cd.getIdAlbum());
+        contentValues.put(DatabaseHelper.COL_CD_ID_ALBUM, cd.getIdAlbum());
         contentValues.put(DatabaseHelper.COL_CD_TITRE_ALBUM, cd.getTitreAlbum());
         contentValues.put(DatabaseHelper.COL_CD_ARTISTE, cd.getArtiste());
         contentValues.put(DatabaseHelper.COL_CD_ANNEE_SORTIE, cd.getAnneSortie());
@@ -76,7 +76,8 @@ public class CDDao {
         List<CD> listeCDs = new ArrayList<CD>();
 
 
-        String[] allColumns = { DatabaseHelper.COL_CD_ID_TECHNIQUE, DatabaseHelper.COL_CD_ID_ALBUM, DatabaseHelper.COL_CD_TITRE_ALBUM, DatabaseHelper.COL_CD_ARTISTE, DatabaseHelper.COL_CD_ANNEE_SORTIE, DatabaseHelper.COL_CD_POCHETTE };
+        String[] allColumns = { DatabaseHelper.COL_CD_ID_TECHNIQUE, DatabaseHelper.COL_CD_ID_ALBUM, DatabaseHelper.COL_CD_TITRE_ALBUM, DatabaseHelper.COL_CD_ARTISTE,
+                DatabaseHelper.COL_CD_ANNEE_SORTIE, DatabaseHelper.COL_CD_POCHETTE };
 
 
         Cursor cursor = database.query(DatabaseHelper.TABLE_CD, allColumns, null, null, null, null, null, null);
@@ -97,7 +98,7 @@ public class CDDao {
         cd.setIdAlbum(cursor.getString(1));
         cd.setTitreAlbum(cursor.getString(2));
         cd.setArtiste(cursor.getString(3));
-        cd.setAnneSortie(cursor.getInt(4));
+        cd.setAnneSortie(cursor.getString(4));
         cd.setPochette(cursor.getBlob(5));
         return cd;
     }
