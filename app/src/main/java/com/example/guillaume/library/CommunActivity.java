@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,22 +54,30 @@ public class CommunActivity extends AppCompatActivity {
 
         if(scanResult != null) {
             String scanContent = scanResult.getContents();
-            String scanFormat = scanResult.getFormatName();
 
-            if(scanContent!=null && scanFormat!=null) {
+            if(scanContent!=null) {
 
-                // Première recherche : livre
-                Livre livre = rechercherLivre(scanContent);
+                // Première recherche : cd
+                CD cd = rechercherCD(scanContent);
 
-                // Si pas de livre trouvé, on cherche un CD
-                if(livre == null) {
-                    CD cd = rechercherCD(scanContent);
+                if(cd != null) {
+                    // Un cd a été ajouté : on en informe l'utilisateur
+                    Toast toast = Toast.makeText(this, cd.getTitreAlbum() + " (de " +cd.getArtiste() + ") ajouté à la liste des CDs", Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
+                    // Pas de cd trouvé, on cherche si un livre correspond au code à barre
+                    Livre livre = rechercherLivre(scanContent);
 
+                    if(livre != null) {
+                        // Un livre a été ajouté : on en informe l'utilisateur
+                        Toast toast = Toast.makeText(this, livre.getTitre() + " (de " +livre.getAuteur() + ") ajouté à la liste des livres", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
                 }
 
 
             } else {
-                Toast toast = Toast.makeText(this, "CAB non valide (pas un livre) !", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, "CAB non valide !", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
