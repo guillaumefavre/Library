@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Numéro de version de la BDD
      */
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 1;
 
     /**
      * Table Livre
@@ -94,8 +94,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Création de la table CD
+    // TODO ajouter contrainte d'unicité sur COL_CD_ID_ALBUM
     private static final String CREATE_TABLE_CD = "CREATE TABLE " + TABLE_CD
-            + "(" + COL_CD_ID_TECHNIQUE + "  INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_CD_ID_ALBUM + " TEXT NOT NULL UNIQUE, "
+            + "(" + COL_CD_ID_TECHNIQUE + "  INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_CD_ID_ALBUM + " TEXT NOT NULL, "
             + COL_CD_TITRE_ALBUM + " TEXT NOT NULL, " + COL_CD_ARTISTE +" TEXT, " + COL_CD_ANNEE_SORTIE +" TEXT, "+ COL_CD_POCHETTE +" BLOB);";
 
 

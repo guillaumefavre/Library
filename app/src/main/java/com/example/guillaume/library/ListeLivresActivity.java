@@ -18,7 +18,7 @@ import com.example.guillaume.library.Metier.Livre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListeLivresActivity extends AppCompatActivity {
+public class ListeLivresActivity extends CommunActivity {
 
     /**
      * Liste des Livres à afficher
@@ -64,6 +64,9 @@ public class ListeLivresActivity extends AppCompatActivity {
                 lancerActiviteSelectionLivre(livreSelectionne);
             }
         });
+
+        // Action lors du clic sur le FAB
+        instancierFAB();
     }
 
     /**

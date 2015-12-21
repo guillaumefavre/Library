@@ -1,11 +1,14 @@
 package com.example.guillaume.library.API;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
+import com.example.guillaume.library.UtilsBitmap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +95,9 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
 
                     // Récupération de la date de sortie de l'album
                     recupererDateSortieAlbum(cd, jsoReleaseGroup);
+
+                    // Récupération de la pochette de l'album
+//                    recupererPochetteAlbum(cd);
 
                     // Ouverture de la connexion à la BDD
                     cdDao = new CDDao(callingActivity.get());
@@ -225,6 +231,30 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
             }
 
         }
+    }
+
+    /**
+     * Récupération de la pochette de l'album
+     *
+     * @param cd
+     */
+    private void recupererPochetteAlbum(CD cd) {
+        // Récupération de la pochette
+        String urlCover = "http://coverartarchive.org/release-group/" +cd.getIdAlbum() +"/front.jpg";
+        Bitmap couverture = null;
+
+        InputStream in = null;
+        try {
+            in = new URL(urlCover).openStream();
+            couverture = BitmapFactory.decodeStream(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(couverture != null) {
+            cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(couverture));
+        }
+
     }
 
 }

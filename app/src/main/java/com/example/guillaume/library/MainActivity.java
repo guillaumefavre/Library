@@ -1,6 +1,7 @@
 package com.example.guillaume.library;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.guillaume.library.API.GoogleBooksAPI;
+import com.example.guillaume.library.Metier.CD;
+import com.example.guillaume.library.Metier.Livre;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import java.util.concurrent.ExecutionException;
+
+public class MainActivity extends CommunActivity {
 
     private ImageButton btnLivre;
 
@@ -50,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
                 lancerActiviteScanCAB();
             }
         });
+
+        // Action lors du clic sur le FAB
+        instancierFAB();
+
+
     }
 
     @Override
@@ -73,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
     /**

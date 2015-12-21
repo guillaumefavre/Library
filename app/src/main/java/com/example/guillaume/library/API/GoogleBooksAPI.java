@@ -129,8 +129,8 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
                 recupererCouverture(livre, jsoVolumeInfo);
 
                 // TODO : à supprimer
-                final ScanCABActivity parentActivity = (ScanCABActivity) callingActivity.get();
-                parentActivity.getTxvBookTitle().setText(jsoVolumeInfo.getString("title"));
+//                final ScanCABActivity parentActivity = (ScanCABActivity) callingActivity.get();
+//                parentActivity.getTxvBookTitle().setText(jsoVolumeInfo.getString("title"));
 
                 // ouverture connextion BDD
                 livreDao = new LivreDAO(callingActivity.get());

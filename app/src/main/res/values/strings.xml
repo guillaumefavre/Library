@@ -15,5 +15,6 @@
     <string name="title_activity_scan_cab">ScanCABActivity</string>
     <string name="title_activity_liste_livres">ListeLivresActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_commun">CommunActivity</string>
 
 </resources>

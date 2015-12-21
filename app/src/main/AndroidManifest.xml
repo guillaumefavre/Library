@@ -38,6 +38,10 @@
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+        <activity
+            android:name=".CommunActivity"
+            android:label="@string/title_activity_commun" >
+        </activity>
     </application>
 
 </manifest>

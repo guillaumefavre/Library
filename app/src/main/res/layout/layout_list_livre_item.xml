@@ -6,7 +6,7 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="110dp"
         android:orientation="horizontal">
 
@@ -22,8 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:orientation="vertical"
-            android:background="#1bff0110">
+            android:orientation="vertical">
 
 
             <TextView

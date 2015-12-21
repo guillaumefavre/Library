@@ -80,7 +80,7 @@ public class CDDao {
                 DatabaseHelper.COL_CD_ANNEE_SORTIE, DatabaseHelper.COL_CD_POCHETTE };
 
 
-        Cursor cursor = database.query(DatabaseHelper.TABLE_CD, allColumns, null, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseHelper.TABLE_CD, allColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
