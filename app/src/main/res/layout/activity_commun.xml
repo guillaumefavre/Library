@@ -15,6 +15,7 @@
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
         app:backgroundTint="@color/zxing_possible_result_points"
-
         />
+
+
 </FrameLayout>

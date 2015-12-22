@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeLivres;
@@ -56,6 +57,7 @@ public class ListeLivresActivity extends CommunActivity {
         listeViewListeLivres.setAdapter(adapteurListeLivres);
 
 
+        // Clic sur un livre : on affiche le détail du livre sélectionné dans une nouvelle activité
         listeViewListeLivres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -64,6 +66,22 @@ public class ListeLivresActivity extends CommunActivity {
                 lancerActiviteSelectionLivre(livreSelectionne);
             }
         });
+
+        // Clic long sur un livre
+        listeViewListeLivres.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Toast.makeText(getApplicationContext(), "Clic long ", Toast.LENGTH_SHORT).show();
+
+                final Livre livreSelectionne = (Livre) adapterView.getItemAtPosition(position);
+
+
+                return true;
+            }
+        });
+
+
 
         // Action lors du clic sur le FAB
         instancierFAB();

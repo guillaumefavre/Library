@@ -12,7 +12,8 @@
     <ListView
         android:id="@+id/lstvListeLivres"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_list_left_margin"/>
 
     <include layout="@layout/activity_commun"/>
 

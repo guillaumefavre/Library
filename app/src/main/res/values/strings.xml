@@ -11,9 +11,9 @@
         <item>CD</item>
         <item>DVD</item>
     </string-array>
-    <string name="title_activity_liste_cd">ListeCDActivity</string>
+    <string name="title_activity_liste_cd">CDs</string>
     <string name="title_activity_scan_cab">ScanCABActivity</string>
-    <string name="title_activity_liste_livres">ListeLivresActivity</string>
+    <string name="title_activity_liste_livres">Livres</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_commun">CommunActivity</string>
 

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,6 +65,12 @@ public class MainActivity extends CommunActivity {
         // Action lors du clic sur le FAB
         instancierFAB();
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // On indique à la toolbar d'agir comme une actionbar
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
 
     }
 
