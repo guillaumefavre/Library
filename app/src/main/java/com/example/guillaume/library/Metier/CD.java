@@ -10,6 +10,12 @@ public class CD {
      */
     private String idAlbum;
 
+
+    /**
+     * Identifiant d'une release particulière de l'album
+     */
+    private String idAlbumEdition;
+
     /**
      * Artiste ayant sorti l'album
      */
@@ -65,6 +71,15 @@ public class CD {
 
     public void setIdAlbum(String idAlbum) {
         this.idAlbum = idAlbum;
+    }
+
+
+    public String getIdAlbumEdition() {
+        return idAlbumEdition;
+    }
+
+    public void setIdAlbumEdition(String idAlbumEdition) {
+        this.idAlbumEdition = idAlbumEdition;
     }
 
     public String getArtiste() {

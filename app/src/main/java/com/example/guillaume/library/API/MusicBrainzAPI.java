@@ -97,7 +97,7 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
                     recupererDateSortieAlbum(cd, jsoReleaseGroup);
 
                     // Récupération de la pochette de l'album
-//                    recupererPochetteAlbum(cd);
+                    recupererPochetteAlbum(cd);
 
                     // Ouverture de la connexion à la BDD
                     cdDao = new CDDao(callingActivity.get());
@@ -175,6 +175,29 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
      * @throws JSONException
      */
     private void recupererIdAlbum(CD cd, JSONObject jsoRelease) throws JSONException {
+
+        // Récupération de l'id de l'album
+        if(jsoRelease.has("id")) {
+            cd.setIdAlbumEdition(jsoRelease.getString("id"));
+        }
+
+        // Récupération de l'id d'un album, commun à toutes ses rééditions (pour récupérer la date de sortie originale)
+        if(jsoRelease.has("release-group")) {
+            JSONObject jsoReleaseGroup = jsoRelease.getJSONObject("release-group");
+            if(jsoReleaseGroup.has("id")) {
+                cd.setIdAlbum(jsoReleaseGroup.getString("id"));
+            }
+        }
+    }
+
+    /**
+     * Récupération de l'id de l'album dans le noeud release-group
+     *
+     * @param cd
+     * @param jsoRelease
+     * @throws JSONException
+     */
+    private void recupererIdAlbumCouvertureTracklist(CD cd, JSONObject jsoRelease) throws JSONException {
         if(jsoRelease.has("release-group")) {
             JSONObject jsoReleaseGroup = jsoRelease.getJSONObject("release-group");
             if(jsoReleaseGroup.has("id")) {
@@ -238,21 +261,56 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
      *
      * @param cd
      */
-    private void recupererPochetteAlbum(CD cd) {
+    private void recupererPochetteAlbum(CD cd) throws JSONException {
         // Récupération de la pochette
-        String urlCover = "http://coverartarchive.org/release-group/" +cd.getIdAlbum() +"/front.jpg";
-        Bitmap couverture = null;
+        String url = "http://coverartarchive.org/release/" +cd.getIdAlbumEdition();
 
-        InputStream in = null;
-        try {
-            in = new URL(urlCover).openStream();
-            couverture = BitmapFactory.decodeStream(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JSONObject responseJson = getJSONObjectFromURL(url);
 
-        if(couverture != null) {
-            cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(couverture));
+        String urlCover = "";
+
+        if(responseJson != null) {
+            JSONArray images = responseJson.getJSONArray("images");
+
+            boolean couvertureTrouvee = false;
+
+            int i = 0;
+
+            while(!couvertureTrouvee && i < images.length()) {
+                JSONObject image = images.getJSONObject(i);
+
+                if(image.has("front")) {
+                    boolean frontCover = image.getBoolean("front");
+
+                    if(frontCover) {
+                        couvertureTrouvee = true;
+                        if(image.has("thumbnails")) {
+                            JSONObject jsoThumbnails = image.getJSONObject("thumbnails");
+
+                            if(jsoThumbnails.has("small")) {
+                                urlCover = jsoThumbnails.getString("small");
+                            }
+                        }
+                    }
+                }
+
+                i++;
+            }
+
+
+            Bitmap couverture = null;
+
+            InputStream in = null;
+            try {
+                in = new URL(urlCover).openStream();
+                couverture = BitmapFactory.decodeStream(in);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if(couverture != null) {
+                cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(couverture));
+            }
         }
 
     }

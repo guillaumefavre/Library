@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.R;
+import com.example.guillaume.library.UtilsBitmap;
 
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
             holder = new ViewHolder();
             holder.nomArtiste = (TextView) convertView.findViewById(R.id.nomArtiste);
             holder.titreAlbum = (TextView) convertView.findViewById(R.id.titreAlbum);
+            holder.pochette = (ImageView) convertView.findViewById(R.id.imvPochetteAlbum);
 
             convertView.setTag(holder);
         }
@@ -58,6 +60,13 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
         // Mise à jour des données de la ligne
         holder.nomArtiste.setText((CharSequence) cd.getArtiste());
         holder.titreAlbum.setText((CharSequence) cd.getTitreAlbum());
+
+        if(cd.getPochette() != null) {
+            holder.pochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(cd.getPochette()));
+        } else {
+            // TODO gérer pochette absente
+            holder.pochette.setImageBitmap(null);
+        }
 
 
         return convertView;
@@ -72,6 +81,8 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
         private TextView nomArtiste;
 
         private TextView titreAlbum;
+
+        private ImageView pochette;
 
     }
 }
