@@ -12,4 +12,6 @@ public class Constantes {
     public static final String DVD = "DVD";
 
     public static final String LIVRE_SELECT = "LIVRE_SELECT";
+
+    public static final String CD_SELECT = "CD_SELECT";
 }

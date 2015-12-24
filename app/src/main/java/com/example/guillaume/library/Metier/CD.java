@@ -1,9 +1,12 @@
 package com.example.guillaume.library.Metier;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by guillaume on 13/08/15.
  */
-public class CD {
+public class CD implements Parcelable {
 
     /**
      * Identifiant de l'album
@@ -136,5 +139,41 @@ public class CD {
      */
     public void setPochette(byte[] pochette) {
         this.pochette = pochette;
+    }
+
+    /**
+     * Permet de regénérer l'objet
+     */
+    public static final Parcelable.Creator<CD> CREATOR = new Creator<CD>() {
+        @Override
+        public CD createFromParcel(Parcel parcel) {
+            CD cd = new CD();
+            cd.setTitreAlbum(parcel.readString());
+            cd.setArtiste(parcel.readString());
+            cd.setPochette(new byte[parcel.readInt()]);
+            parcel.readByteArray(cd.getPochette());
+            return cd;
+        }
+
+        @Override
+        public CD[] newArray(int i) {
+            return new CD[0];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(titreAlbum);
+        parcel.writeString(artiste);
+        if(pochette != null) {
+            parcel.writeInt(pochette.length);
+            parcel.writeByteArray(pochette);
+        }
+
     }
 }

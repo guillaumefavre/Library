@@ -1,12 +1,16 @@
 package com.example.guillaume.library;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeCD;
+import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
 
@@ -55,6 +59,29 @@ public class ListeCDActivity extends AppCompatActivity {
         listeViewListeCD = (ListView) findViewById(R.id.lstvListeCd);
         listeViewListeCD.setAdapter(adapteurListeCD);
 
+        // Clic sur un cd : on affiche le détail du cd sélectionné dans une nouvelle activité
+        listeViewListeCD.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                final CD cdSelectionne = (CD) adapterView.getItemAtPosition(position);
+                lancerActiviteSelectionCD(cdSelectionne);
+            }
+        });
+    }
+
+
+    /**
+     * Méthode appelée suite à un clic sur un item de la liste
+     *
+     * @param cdSelectionne
+     */
+    private void lancerActiviteSelectionCD(CD cdSelectionne) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(Constantes.CD_SELECT, cdSelectionne);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     @Override

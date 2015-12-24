@@ -1,8 +1,5 @@
 package com.example.guillaume.library;
 
-import android.app.ActionBar;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,13 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.guillaume.library.Constantes.Constantes;
+import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.Livre;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -27,35 +19,59 @@ public class DetailActivity extends AppCompatActivity {
      */
     private LinearLayout layoutLivre;
 
-    private TextView txvTitreLivre;
+    private TextView txvLigne1;
 
-    private TextView txvAuteurLivre;
+    private TextView txvLigne2;
 
     private TextView txvDescription;
 
-    private ImageView imvCouvertureLivre;
+    private ImageView imvCouverturePochette;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        layoutLivre = (LinearLayout) findViewById(R.id.layoutLivre);
-
-        txvTitreLivre = (TextView) findViewById(R.id.txv_titre_livre);
-
-        txvAuteurLivre = (TextView) findViewById(R.id.txv_auteur_livre);
-
-        imvCouvertureLivre = (ImageView) findViewById(R.id.imvCouvertureLivre);
-
-        txvDescription = (TextView) findViewById(R.id.txv_description_livre);
-
         Livre livre = (Livre) getIntent().getParcelableExtra(Constantes.LIVRE_SELECT);
 
-        txvTitreLivre.setText(livre.getTitre());
-        txvAuteurLivre.setText(livre.getAuteur());
-        txvDescription.setText(livre.getDescription());
-        imvCouvertureLivre.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
+        if(livre != null) {
+
+            layoutLivre = (LinearLayout) findViewById(R.id.layoutEnTete);
+
+            txvLigne1 = (TextView) findViewById(R.id.txv_ligne1);
+
+            txvLigne2 = (TextView) findViewById(R.id.txv_ligne2);
+
+            imvCouverturePochette = (ImageView) findViewById(R.id.imvCouverturePochette);
+
+            txvDescription = (TextView) findViewById(R.id.txv_zone_description);
+
+            txvLigne1.setText(livre.getTitre());
+            txvLigne2.setText(livre.getAuteur());
+            txvDescription.setText(livre.getDescription());
+            imvCouverturePochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
+
+        } else {
+            CD cd = (CD) getIntent().getParcelableExtra(Constantes.CD_SELECT);
+
+            layoutLivre = (LinearLayout) findViewById(R.id.layoutEnTete);
+
+            txvLigne1 = (TextView) findViewById(R.id.txv_ligne1);
+
+            txvLigne2 = (TextView) findViewById(R.id.txv_ligne2);
+
+            imvCouverturePochette = (ImageView) findViewById(R.id.imvCouverturePochette);
+
+            txvDescription = (TextView) findViewById(R.id.txv_zone_description);
+
+            txvLigne1.setText(cd.getTitreAlbum());
+            txvLigne2.setText(cd.getArtiste());
+            imvCouverturePochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(cd.getPochette()));
+        }
+
+
+
+
 
     }
 
@@ -81,7 +97,7 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public ImageView getImvCouvertureLivre() {
-        return imvCouvertureLivre;
+    public ImageView getImvCouverturePochette() {
+        return imvCouverturePochette;
     }
 }

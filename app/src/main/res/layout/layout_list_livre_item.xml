@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imvCouvertureLivre"
+            android:id="@+id/imvCouverturePochette"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"/>

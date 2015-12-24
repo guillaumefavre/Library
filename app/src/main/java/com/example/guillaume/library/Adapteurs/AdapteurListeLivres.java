@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.R;
 import com.example.guillaume.library.UtilsBitmap;
@@ -52,7 +51,7 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
             holder = new ViewHolder();
             holder.titre = (TextView) convertView.findViewById(R.id.titreLivre);
             holder.auteur = (TextView) convertView.findViewById(R.id.auteurLivre);
-            holder.couverture = (ImageView) convertView.findViewById(R.id.imvCouvertureLivre);
+            holder.couverture = (ImageView) convertView.findViewById(R.id.imvCouverturePochette);
 
             convertView.setTag(holder);
         }

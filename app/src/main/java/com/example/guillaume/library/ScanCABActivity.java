@@ -1,10 +1,8 @@
 package com.example.guillaume.library;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,25 +19,7 @@ import com.example.guillaume.library.Metier.Livre;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class ScanCABActivity extends AppCompatActivity {
 
@@ -69,7 +49,7 @@ public class ScanCABActivity extends AppCompatActivity {
 
         txvBookTitle = (TextView) findViewById(R.id.txv_book_title);
         txvBookAuthor = (TextView) findViewById(R.id.txv_book_author);
-        imvCouvertureLivre = (ImageView) findViewById(R.id.imvCouvertureLivre);
+        imvCouvertureLivre = (ImageView) findViewById(R.id.imvCouverturePochette);
 
 
         // Ouverture de la BDD
