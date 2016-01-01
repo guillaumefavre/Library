@@ -85,6 +85,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public static final String COL_CD_POCHETTE = "pochette";
 
+    /**
+     * Colonne liste pistes de la table CD
+     */
+    public static final String COL_CD_LISTE_PISTES = "pistes";
+
 
 
     // Création de la table livre
@@ -97,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // TODO ajouter contrainte d'unicité sur COL_CD_ID_ALBUM
     private static final String CREATE_TABLE_CD = "CREATE TABLE " + TABLE_CD
             + "(" + COL_CD_ID_TECHNIQUE + "  INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_CD_ID_ALBUM + " TEXT NOT NULL, "
-            + COL_CD_TITRE_ALBUM + " TEXT NOT NULL, " + COL_CD_ARTISTE +" TEXT, " + COL_CD_ANNEE_SORTIE +" TEXT, "+ COL_CD_POCHETTE +" BLOB);";
+            + COL_CD_TITRE_ALBUM + " TEXT NOT NULL, " + COL_CD_ARTISTE +" TEXT, " + COL_CD_ANNEE_SORTIE +" TEXT, "+ COL_CD_POCHETTE +" BLOB, " + COL_CD_LISTE_PISTES +" TEXT);";
 
 
     /**

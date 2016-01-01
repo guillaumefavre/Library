@@ -3,6 +3,8 @@ package com.example.guillaume.library.Metier;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by guillaume on 13/08/15.
  */
@@ -38,6 +40,12 @@ public class CD implements Parcelable {
      * Pochette de l'album (int vers l'image mipmap)
      */
     private byte[] pochette;
+
+
+    /**
+     * Liste des pistes
+     */
+    private List<CDPiste> listePistes;
 
     /**
      * Constructeur vide
@@ -141,6 +149,23 @@ public class CD implements Parcelable {
         this.pochette = pochette;
     }
 
+
+    /**
+     *
+     * @return
+     */
+    public List<CDPiste> getListePistes() {
+        return listePistes;
+    }
+
+    /**
+     *
+     * @param listePistes
+     */
+    public void setListePistes(List<CDPiste> listePistes) {
+        this.listePistes = listePistes;
+    }
+
     /**
      * Permet de regénérer l'objet
      */
@@ -152,6 +177,7 @@ public class CD implements Parcelable {
             cd.setArtiste(parcel.readString());
             cd.setPochette(new byte[parcel.readInt()]);
             parcel.readByteArray(cd.getPochette());
+//            parcel.readTypedList(cd.getListePistes(), CDPiste.CREATOR);
             return cd;
         }
 
@@ -174,6 +200,6 @@ public class CD implements Parcelable {
             parcel.writeInt(pochette.length);
             parcel.writeByteArray(pochette);
         }
-
+//        parcel.writeTypedList(listePistes);
     }
 }

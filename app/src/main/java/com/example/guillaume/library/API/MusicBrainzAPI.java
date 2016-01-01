@@ -8,7 +8,9 @@ import android.util.Log;
 
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
+import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.UtilsBitmap;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +25,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -98,6 +102,9 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
 
                     // Récupération de la pochette de l'album
                     recupererPochetteAlbum(cd);
+
+                    // Récupération des pistes
+                    recupererPistes(cd);
 
                     // Ouverture de la connexion à la BDD
                     cdDao = new CDDao(callingActivity.get());
@@ -215,9 +222,9 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
      * @throws JSONException
      */
     private void recupererTitreAlbum(CD cd, JSONObject jsoReleaseGroup) throws JSONException {
-            if(jsoReleaseGroup.has("title")) {
-                cd.setTitreAlbum(jsoReleaseGroup.getString("title"));
-            }
+        if(jsoReleaseGroup.has("title")) {
+            cd.setTitreAlbum(jsoReleaseGroup.getString("title"));
+        }
     }
 
 
@@ -310,6 +317,49 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
 
             if(couverture != null) {
                 cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(couverture));
+            }
+        }
+
+    }
+
+    /**
+     * Récupération des pistes du CD
+     *
+     * @param cd
+     */
+    private void recupererPistes(CD cd) throws JSONException {
+    // Récupération de la pochette
+        String url = "https://musicbrainz.org/ws/2/release/" +cd.getIdAlbumEdition() +"?inc=recordings&fmt=json";
+
+        JSONObject responseJson = getJSONObjectFromURL(url);
+
+        if(responseJson != null) {
+            JSONArray media = responseJson.getJSONArray("media");
+
+            JSONObject jsoMedia = media.getJSONObject(0);
+
+            if(jsoMedia.has("tracks")) {
+                JSONArray tracks = jsoMedia.getJSONArray("tracks");
+                ArrayList<CDPiste> listePistes = new ArrayList<CDPiste>();
+
+                for(int i=0; i < tracks.length(); i++) {
+
+                    JSONObject track = tracks.getJSONObject(i);
+
+                    CDPiste piste = new CDPiste();
+                    if(track.has("number") && track.has("title")) {
+                        piste.setNumeroPiste(Integer.parseInt(track.getString("number")));
+                        piste.setTitreChanson(track.getString("title"));
+                        listePistes.add(piste);
+                    }
+                }
+                cd.setListePistes(listePistes);
+
+                // Transformation de l'arraylist en jsonObject pour le stockage en base
+                Gson gson = new Gson();
+
+                String jsoListePistes = gson.toJson(listePistes);
+
             }
         }
 

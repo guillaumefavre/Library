@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteException;
 import android.provider.ContactsContract;
 
 import com.example.guillaume.library.Metier.CD;
+import com.example.guillaume.library.Metier.CDPiste;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,12 @@ public class CDDao {
         contentValues.put(DatabaseHelper.COL_CD_ARTISTE, cd.getArtiste());
         contentValues.put(DatabaseHelper.COL_CD_ANNEE_SORTIE, cd.getAnneSortie());
         contentValues.put(DatabaseHelper.COL_CD_POCHETTE, cd.getPochette());
+
+        // Transformation de l'arraylist en jsonObject pour le stockage en base
+        Gson gson = new Gson();
+        String jsoListePistes = gson.toJson(cd.getListePistes());
+        contentValues.put(DatabaseHelper.COL_CD_LISTE_PISTES, jsoListePistes);
+
         long insertId = database.insert(DatabaseHelper.TABLE_CD, null, contentValues);
 
     }
@@ -77,7 +85,7 @@ public class CDDao {
 
 
         String[] allColumns = { DatabaseHelper.COL_CD_ID_TECHNIQUE, DatabaseHelper.COL_CD_ID_ALBUM, DatabaseHelper.COL_CD_TITRE_ALBUM, DatabaseHelper.COL_CD_ARTISTE,
-                DatabaseHelper.COL_CD_ANNEE_SORTIE, DatabaseHelper.COL_CD_POCHETTE };
+                DatabaseHelper.COL_CD_ANNEE_SORTIE, DatabaseHelper.COL_CD_POCHETTE, DatabaseHelper.COL_CD_LISTE_PISTES };
 
 
         Cursor cursor = database.query(DatabaseHelper.TABLE_CD, allColumns, null, null, null, null, null);
@@ -100,6 +108,13 @@ public class CDDao {
         cd.setArtiste(cursor.getString(3));
         cd.setAnneSortie(cursor.getString(4));
         cd.setPochette(cursor.getBlob(5));
+
+        String str = cursor.getString(6);
+        // Désérialisation de la liste des pistes
+        Gson gson = new Gson();
+        List<CDPiste> listePistes = gson.fromJson(str, List.class);
+        cd.setListePistes(listePistes);
+
         return cd;
     }
 }
