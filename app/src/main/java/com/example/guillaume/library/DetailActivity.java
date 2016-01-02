@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Metier.CD;
+import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Metier.Livre;
 
 public class DetailActivity extends AppCompatActivity {
@@ -22,6 +23,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView txvLigne1;
 
     private TextView txvLigne2;
+
+    private TextView txvLigne3;
 
     private TextView txvDescription;
 
@@ -60,19 +63,38 @@ public class DetailActivity extends AppCompatActivity {
 
             txvLigne2 = (TextView) findViewById(R.id.txv_ligne2);
 
+            txvLigne3 = (TextView) findViewById(R.id.txv_ligne3);
+
             imvCouverturePochette = (ImageView) findViewById(R.id.imvCouverturePochette);
 
             txvDescription = (TextView) findViewById(R.id.txv_zone_description);
 
             txvLigne1.setText(cd.getTitreAlbum());
             txvLigne2.setText(cd.getArtiste());
-            imvCouverturePochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(cd.getPochette()));
+            txvLigne3.setText(cd.getAnneSortie());
+
+            txvDescription.setText(afficherListePistes(cd));
+
+            if(cd.getPochette() != null) {
+                imvCouverturePochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(cd.getPochette()));
+            }
+
         }
 
+    }
 
 
+    private String afficherListePistes(CD cd) {
 
+        String listePistes = "";
 
+        if(cd.getListePistes() != null) {
+            for(final CDPiste piste : cd.getListePistes()) {
+                listePistes += piste.getTitreChanson() + "\n";
+            }
+        }
+
+        return listePistes;
     }
 
     @Override

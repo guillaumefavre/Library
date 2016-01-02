@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.ScanCABActivity;
+import com.example.guillaume.library.R;
 import com.example.guillaume.library.UtilsBitmap;
 
 import org.json.JSONArray;
@@ -236,11 +237,26 @@ public class GoogleBooksAPI extends AsyncTask<String, Void, Livre> {
 
                 if(couverture != null) {
                     livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+                } else {
+                    affecterCouvertureDefaut(livre);
                 }
 
             }
 
+        } else {
+            affecterCouvertureDefaut(livre);
         }
+    }
+
+
+    /**
+     * Méthode qui affecte une couverture par défaut à un livre pour lequel la couverture n'a pas été trouvée
+     *
+     * @param livre
+     */
+    private void affecterCouvertureDefaut(Livre livre) {
+        Bitmap bitmap = BitmapFactory.decodeResource(callingActivity.get().getResources(), R.mipmap.ic_inconnu);
+        livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(bitmap));
     }
 
 

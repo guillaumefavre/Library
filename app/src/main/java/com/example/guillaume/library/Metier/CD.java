@@ -3,6 +3,7 @@ package com.example.guillaume.library.Metier;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +52,6 @@ public class CD implements Parcelable {
      * Constructeur vide
      */
     public CD() {
-
     }
 
     /**
@@ -175,9 +175,14 @@ public class CD implements Parcelable {
             CD cd = new CD();
             cd.setTitreAlbum(parcel.readString());
             cd.setArtiste(parcel.readString());
+
+            // Pochette
             cd.setPochette(new byte[parcel.readInt()]);
             parcel.readByteArray(cd.getPochette());
-//            parcel.readTypedList(cd.getListePistes(), CDPiste.CREATOR);
+
+            // Liste pistes
+            cd.setListePistes(new ArrayList<CDPiste>());
+            parcel.readTypedList(cd.getListePistes(), CDPiste.CREATOR);
             return cd;
         }
 
@@ -200,6 +205,6 @@ public class CD implements Parcelable {
             parcel.writeInt(pochette.length);
             parcel.writeByteArray(pochette);
         }
-//        parcel.writeTypedList(listePistes);
+        parcel.writeTypedList(listePistes);
     }
 }

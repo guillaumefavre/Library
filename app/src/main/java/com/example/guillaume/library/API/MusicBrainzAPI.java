@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
+import com.example.guillaume.library.R;
 import com.example.guillaume.library.UtilsBitmap;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,9 +25,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by guillaume on 19/12/15.
@@ -305,21 +301,36 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
             }
 
 
-            Bitmap couverture = null;
+            Bitmap pochette = null;
 
             InputStream in = null;
             try {
                 in = new URL(urlCover).openStream();
-                couverture = BitmapFactory.decodeStream(in);
+                pochette = BitmapFactory.decodeStream(in);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            if(couverture != null) {
-                cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(couverture));
+            if(pochette != null) {
+                cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(pochette));
+            } else {
+                affecterPochetteDefaut(cd);
             }
+
+        } else {
+            affecterPochetteDefaut(cd);
         }
 
+    }
+
+    /**
+     * Méthode qui affecte une pochette par défaut à un CD pour lequel la pochette n'a pas été trouvée
+     *
+     * @param cd
+     */
+    private void affecterPochetteDefaut(CD cd) {
+        Bitmap bitmap = BitmapFactory.decodeResource(callingActivity.get().getResources(), R.mipmap.ic_album_defaut);
+        cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(bitmap));
     }
 
     /**
@@ -354,11 +365,6 @@ public class MusicBrainzAPI extends AsyncTask<String, Void, CD> {
                     }
                 }
                 cd.setListePistes(listePistes);
-
-                // Transformation de l'arraylist en jsonObject pour le stockage en base
-                Gson gson = new Gson();
-
-                String jsoListePistes = gson.toJson(listePistes);
 
             }
         }

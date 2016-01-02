@@ -10,7 +10,9 @@ import android.provider.ContactsContract;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,7 +114,12 @@ public class CDDao {
         String str = cursor.getString(6);
         // Désérialisation de la liste des pistes
         Gson gson = new Gson();
-        List<CDPiste> listePistes = gson.fromJson(str, List.class);
+
+        Type listType = new TypeToken<ArrayList<CDPiste>>() {}.getType();
+        List<CDPiste> listePistes = gson.fromJson(str, listType);
+
+//        CDPiste[] listePistes = gson.fromJson(str, CDPiste[].class);
+
         cd.setListePistes(listePistes);
 
         return cd;

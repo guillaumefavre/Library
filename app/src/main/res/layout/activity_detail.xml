@@ -41,19 +41,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                android:id="@+id/txv_ligne3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Année de parution" />
+
         </LinearLayout>
 
     </LinearLayout>
 
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Année de parution Todo" />
-
-    <TextView
         android:id="@+id/txv_zone_description"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Description" />
