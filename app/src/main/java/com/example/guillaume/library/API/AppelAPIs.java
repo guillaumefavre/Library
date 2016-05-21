@@ -57,19 +57,29 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
     }
 
 
-
+    /**
+     * Affichage des messages de chargement
+     */
     protected void onPreExecute() {
         dialog.setTitle("Récupération des informations");
         dialog.setMessage("Veuillez patienter");
         dialog.show();
     }
 
+    /**
+     *
+     * @param success
+     */
     @Override
     protected void onPostExecute(final Boolean success) {
+
+        // Suppression de la pop-up de progression si elle est affichée
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
 
+
+        // Toast affichant l'élément ajouté
         Toast toast = null;
 
         if(cd != null) {
@@ -86,41 +96,19 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
     }
 
+    /**
+     * Recherche des informations à partir du CAB flashé
+     *
+     * @param params
+     * @return
+     */
     protected Boolean doInBackground(final String... params) {
-
 
         cd = rechercherCD(params[0]);
 
         if(cd == null) {
             livre = rechercherLivre(params[0]);
         }
-
-
-//        if(cd != null) {
-//            // Un cd a été ajouté : on en informe l'utilisateur
-//            Toast toast = Toast.makeText(this, cd.getTitreAlbum() + " (de " +cd.getArtiste() + ") ajouté à la liste des CDs", Toast.LENGTH_LONG);
-//            toast.show();
-//        } else {
-//            // Pas de cd trouvé, on cherche si un livre correspond au code à barre
-//            Livre livre = rechercherLivre(scanContent);
-//
-//            if(livre != null) {
-//                // Un livre a été ajouté : on en informe l'utilisateur
-//                Toast toast = Toast.makeText(this, livre.getTitre() + " (de " +livre.getAuteur() + ") ajouté à la liste des livres", Toast.LENGTH_LONG);
-//                toast.show();
-//            } else {
-//                Toast toast = Toast.makeText(this, "Aucune donnée trouvée !", Toast.LENGTH_SHORT);
-//                toast.show();
-//                    }
-//                }
-//
-//
-//            } else {
-//                Toast toast = Toast.makeText(this, "CAB non valide !", Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-
-
 
         return false;
     }
@@ -214,10 +202,6 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
                 // Récupération de la couverture
                 recupererCouverture(livre, jsoVolumeInfo);
-
-                // TODO : à supprimer
-//                final ScanCABActivity parentActivity = (ScanCABActivity) callingActivity.get();
-//                parentActivity.getTxvBookTitle().setText(jsoVolumeInfo.getString("title"));
 
                 // ouverture connextion BDD
                 livreDao = new LivreDAO(activity);
@@ -422,14 +406,17 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
                     JSONObject jsoReleaseGroup = getJSONObjectFromURL(url);
 
-                    // Récupération du titre de l'album
-                    recupererTitreAlbum(cd, jsoReleaseGroup);
+                    if(jsoReleaseGroup != null) {
 
-                    // Récupération de l'artiste de l'album
-                    recupererArtisteALbum(cd, jsoReleaseGroup);
+                        // Récupération du titre de l'album
+                        recupererTitreAlbum(cd, jsoReleaseGroup);
 
-                    // Récupération de la date de sortie de l'album
-                    recupererDateSortieAlbum(cd, jsoReleaseGroup);
+                        // Récupération de l'artiste de l'album
+                        recupererArtisteALbum(cd, jsoReleaseGroup);
+
+                        // Récupération de la date de sortie de l'album
+                        recupererDateSortieAlbum(cd, jsoReleaseGroup);
+                    }
 
                     // Récupération de la pochette de l'album
                     recupererPochetteAlbum(cd);

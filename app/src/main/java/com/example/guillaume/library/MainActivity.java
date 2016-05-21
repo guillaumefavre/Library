@@ -10,16 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.example.guillaume.library.API.GoogleBooksAPI;
-import com.example.guillaume.library.Metier.CD;
-import com.example.guillaume.library.Metier.Livre;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import java.util.concurrent.ExecutionException;
-
+/**
+ * Ecran d'accueil de l'application
+ */
 public class MainActivity extends CommunActivity {
 
     private ImageButton btnLivre;
@@ -118,7 +112,7 @@ public class MainActivity extends CommunActivity {
      * Méthode qui lance l'activité permettant de scanner un code à barres
      */
     private void lancerActiviteScanCAB() {
-        Intent intent = new Intent(this, ScanCABActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ScanCABActivity.class);
+//        startActivity(intent);
     }
 }
