@@ -67,14 +67,23 @@ public class ListeLivresActivity extends CommunActivity {
             }
         });
 
-        // Clic long sur un livre
+        // Clic long sur un livre => suppression
         listeViewListeLivres.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Toast.makeText(getApplicationContext(), "Clic long ", Toast.LENGTH_SHORT).show();
-
                 final Livre livreSelectionne = (Livre) adapterView.getItemAtPosition(position);
+
+                int suppr = livreDAO.supprimerLivre(livreSelectionne);
+
+                if(suppr > 0) {
+                    listeLivres.remove(livreSelectionne);
+
+                    // Refresh de la vue
+                    adapteurListeLivres.notifyDataSetChanged();
+
+                    Toast.makeText(getApplicationContext(), "Suppression livre : " + livreSelectionne.getTitre(), Toast.LENGTH_SHORT).show();
+                }
 
 
                 return true;

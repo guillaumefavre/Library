@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeCD;
 import com.example.guillaume.library.Constantes.Constantes;
@@ -66,6 +67,30 @@ public class ListeCDActivity extends AppCompatActivity {
 
                 final CD cdSelectionne = (CD) adapterView.getItemAtPosition(position);
                 lancerActiviteSelectionCD(cdSelectionne);
+            }
+        });
+
+        // Clic long sur un livre
+        listeViewListeCD.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                final CD cdSelectionne = (CD) adapterView.getItemAtPosition(position);
+
+//                Toast.makeText(getApplicationContext(), "Clic long cd : " + cdSelectionne.getTitreAlbum(), Toast.LENGTH_SHORT).show();
+
+                int suppr = cdDao.supprimerCD(cdSelectionne);
+
+                if(suppr > 0) {
+                    listeCDs.remove(cdSelectionne);
+
+                    // Refresh de la vue
+                    adapteurListeCD.notifyDataSetChanged();
+
+                    Toast.makeText(getApplicationContext(), "Suppression cd : " + cdSelectionne.getTitreAlbum(), Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
             }
         });
     }

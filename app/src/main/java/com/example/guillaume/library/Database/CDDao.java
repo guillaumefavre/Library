@@ -124,4 +124,10 @@ public class CDDao {
 
         return cd;
     }
+
+    public int supprimerCD(CD cdASupprimer) {
+
+        // Suppression du livre
+        return database.delete(DatabaseHelper.TABLE_CD, DatabaseHelper.COL_CD_ID_ALBUM + "=" +"'" +cdASupprimer.getIdAlbum() +"'", null);
+    }
 }

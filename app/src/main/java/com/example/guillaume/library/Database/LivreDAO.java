@@ -100,4 +100,13 @@ public class LivreDAO {
         livre.setCouverture(cursor.getBlob(4));
         return livre;
     }
+
+    public int supprimerLivre(Livre livreASupprimer) {
+
+        // Création de la clause WHERE
+        final String whereClause = DatabaseHelper.COL_AUTEUR + " = '" +livreASupprimer.getAuteur() +"' AND " + DatabaseHelper.COL_TITRE + " = '" +livreASupprimer.getTitre() +"'";
+
+        // Suppression du livre
+        return database.delete(DatabaseHelper.TABLE_LIVRE, whereClause, null);
+    }
 }
