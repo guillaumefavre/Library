@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.guillaume.library.CommunActivity;
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Database.LivreDAO;
+import com.example.guillaume.library.Exceptions.ReponseAPIException;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Metier.Livre;
@@ -50,6 +51,8 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
     private Livre livre;
 
+    private ReponseAPIException reponseAPIException = null;
+
 
     public AppelAPIs(CommunActivity activity) {
         this.activity = activity;
@@ -86,6 +89,8 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             toast = Toast.makeText(activity, cd.getTitreAlbum() + " (de " +cd.getArtiste() + ") ajouté à la liste des CDs", Toast.LENGTH_LONG);
         } else if(livre != null) {
             toast = Toast.makeText(activity, livre.getTitre() + " (de " +livre.getAuteur() + ") ajouté à la liste des livres", Toast.LENGTH_LONG);
+        } else if(reponseAPIException != null) {
+            toast = Toast.makeText(activity, reponseAPIException.getMessage(), Toast.LENGTH_LONG);
         } else {
             toast = Toast.makeText(activity, "Aucune donnée trouvée", Toast.LENGTH_LONG);
         }
@@ -104,7 +109,12 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      */
     protected Boolean doInBackground(final String... params) {
 
-        cd = rechercherCD(params[0]);
+        try {
+            cd = rechercherCD(params[0]);
+        } catch (ReponseAPIException e) {
+            e.printStackTrace();
+            reponseAPIException = e;
+        }
 
         if(cd == null) {
             livre = rechercherLivre(params[0]);
@@ -329,7 +339,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
 
 
-    private CD rechercherCD(String cab) {
+    private CD rechercherCD(String cab) throws ReponseAPIException {
 
         CD cd = null;
 
@@ -370,6 +380,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+//            throw new ReponseAPIException();
         }
 
 
@@ -383,7 +394,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      * @param responseJson
      * @return
      */
-    private CD construireCd(JSONObject responseJson) {
+    private CD construireCd(JSONObject responseJson) throws ReponseAPIException {
         CD cd = null;
 
         if(responseJson == null) {
@@ -416,13 +427,15 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
                         // Récupération de la date de sortie de l'album
                         recupererDateSortieAlbum(cd, jsoReleaseGroup);
+
+                        // Récupération de la pochette de l'album
+                        recupererPochetteAlbum(cd);
+
+                        // Récupération des pistes
+                        recupererPistes(cd);
                     }
 
-                    // Récupération de la pochette de l'album
-                    recupererPochetteAlbum(cd);
 
-                    // Récupération des pistes
-                    recupererPistes(cd);
 
                     // Ouverture de la connexion à la BDD
                     cdDao = new CDDao(activity);
@@ -449,7 +462,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      * @param strUrl
      * @return
      */
-    private JSONObject getJSONObjectFromURL(String strUrl) {
+    private JSONObject getJSONObjectFromURL(String strUrl) throws ReponseAPIException {
 
         JSONObject jsoRetour = null;
 
@@ -476,6 +489,9 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
                 jsoRetour = new JSONObject(builder.toString());
 
+            } else {
+                // TODO gestion autres codes retours
+                throw new ReponseAPIException();
             }
 
         } catch (MalformedURLException e) {
@@ -486,6 +502,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            throw new ReponseAPIException();
         }
 
         return jsoRetour;
@@ -586,7 +603,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      *
      * @param cd
      */
-    private void recupererPochetteAlbum(CD cd) throws JSONException {
+    private void recupererPochetteAlbum(CD cd) throws JSONException, ReponseAPIException {
         // Récupération de la pochette
         String url = "http://coverartarchive.org/release/" +cd.getIdAlbumEdition();
 
@@ -660,7 +677,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      *
      * @param cd
      */
-    private void recupererPistes(CD cd) throws JSONException {
+    private void recupererPistes(CD cd) throws JSONException, ReponseAPIException {
         // Récupération de la pochette
         String url = "https://musicbrainz.org/ws/2/release/" +cd.getIdAlbumEdition() +"?inc=recordings&fmt=json";
 
