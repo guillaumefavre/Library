@@ -53,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
             txvLigne1.setText(livre.getTitre());
             txvLigne2.setText(livre.getAuteur());
             txvDescription.setText(livre.getDescription());
-            imvCouverturePochette.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(livre.getCouverture()));
+            imvCouverturePochette.setImageBitmap(BitmapUtils.convertEncodedBase64StringToBitmap(livre.getCouverture()));
 
         } else {
             CD cd = (CD) getIntent().getParcelableExtra(Constantes.CD_SELECT);
@@ -77,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             txvDescription.setText(afficherListePistes(cd));
 
             if(cd.getPochette() != null) {
-                imvCouverturePochette.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(cd.getPochette()));
+                imvCouverturePochette.setImageBitmap(BitmapUtils.convertEncodedBase64StringToBitmap(cd.getPochette()));
             }
 
         }

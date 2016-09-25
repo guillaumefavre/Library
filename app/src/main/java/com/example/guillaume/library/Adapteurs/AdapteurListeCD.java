@@ -62,7 +62,7 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
         holder.titreAlbum.setText((CharSequence) cd.getTitreAlbum());
 
         if(cd.getPochette() != null) {
-            holder.pochette.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(cd.getPochette()));
+            holder.pochette.setImageBitmap(BitmapUtils.convertEncodedBase64StringToBitmap(cd.getPochette()));
         } else {
             // TODO gérer pochette absente
             holder.pochette.setImageBitmap(null);

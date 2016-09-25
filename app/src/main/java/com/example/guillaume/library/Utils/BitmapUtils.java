@@ -18,7 +18,7 @@ public class BitmapUtils {
      * @param bitmap
      * @return
      */
-    public static String convertBitmapToBytesArray(Bitmap bitmap) {
+    public static String convertBitmapEncodedBase64String(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
         byte[] byteArray = stream.toByteArray();
@@ -32,7 +32,7 @@ public class BitmapUtils {
      * @param encodedImage
      * @return
      */
-    public static Bitmap convertByteArrayToBitmap(String encodedImage) {
+    public static Bitmap convertEncodedBase64StringToBitmap(String encodedImage) {
 
         byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

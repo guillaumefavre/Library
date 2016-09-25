@@ -334,7 +334,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
                 }
 
                 if(couverture != null) {
-                    livre.setCouverture(BitmapUtils.convertBitmapToBytesArray(couverture));
+                    livre.setCouverture(BitmapUtils.convertBitmapEncodedBase64String(couverture));
                 } else {
                     affecterCouvertureDefaut(livre);
                 }
@@ -354,7 +354,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      */
     private void affecterCouvertureDefaut(Livre livre) {
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_inconnu);
-        livre.setCouverture(BitmapUtils.convertBitmapToBytesArray(bitmap));
+        livre.setCouverture(BitmapUtils.convertBitmapEncodedBase64String(bitmap));
     }
 
 
@@ -673,7 +673,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             }
 
             if(pochette != null) {
-                cd.setPochette(BitmapUtils.convertBitmapToBytesArray(pochette));
+                cd.setPochette(BitmapUtils.convertBitmapEncodedBase64String(pochette));
             } else {
                 affecterPochetteDefaut(cd);
             }
@@ -691,7 +691,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      */
     private void affecterPochetteDefaut(CD cd) {
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_album_defaut);
-        cd.setPochette(BitmapUtils.convertBitmapToBytesArray(bitmap));
+        cd.setPochette(BitmapUtils.convertBitmapEncodedBase64String(bitmap));
     }
 
     /**

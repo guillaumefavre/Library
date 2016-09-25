@@ -63,7 +63,7 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
         holder.titre.setText((CharSequence) livre.getTitre());
         holder.auteur.setText((CharSequence) livre.getAuteur());
         if(livre.getCouverture() != null) {
-            holder.couverture.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(livre.getCouverture()));
+            holder.couverture.setImageBitmap(BitmapUtils.convertEncodedBase64StringToBitmap(livre.getCouverture()));
         } else {
             // TODO gérer couverture absente
             holder.couverture.setImageBitmap(null);
