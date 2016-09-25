@@ -40,24 +40,52 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
-    /** progress dialog to show user that the backup is processing. */
+    /**
+     * Popup affichant un message pendant le chargement des infos
+     */
     private ProgressDialog dialog;
-    /** application context. */
+
+    /**
+     * application context.
+     */
     private CommunActivity activity;
 
+    /**
+     * Lien avec la table Livre
+     */
     private LivreDAO livreDao;
 
+    /**
+     * Lien avec la table CD
+     */
     private CDDao cdDao;
 
+    /**
+     * CD en cours de traitement
+     */
     private CD cd;
 
+    /**
+     * Livre en cours de traitement
+     */
     private Livre livre;
 
+    /**
+     * Exception utilisée en cas d'erreur lors de la récupération des informations de l'élément flashé
+     */
     private ReponseAPIException reponseAPIException = null;
 
+    /**
+     * Exception utilisée en cas de violation d'une contrainte sur la BDD
+     */
     private SQLiteConstraintException sqLiteConstraintException = null;
 
 
+    /**
+     * Constructeur
+     *
+     * @param activity activité
+     */
     public AppelAPIs(CommunActivity activity) {
         this.activity = activity;
         dialog = new ProgressDialog(activity);
@@ -74,6 +102,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
     }
 
     /**
+     *
      *
      * @param success
      */
@@ -101,9 +130,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             toast = Toast.makeText(activity, "Aucune donnée trouvée", Toast.LENGTH_LONG);
         }
 
-        if(toast != null) {
-            toast.show();
-        }
+        toast.show();
 
     }
 

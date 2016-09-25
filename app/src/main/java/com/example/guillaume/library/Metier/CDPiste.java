@@ -19,18 +19,34 @@ public class CDPiste implements Parcelable {
     private String titreChanson;
 
 
+    /**
+     *
+     * @return numeroPiste
+     */
     public int getNumeroPiste() {
         return numeroPiste;
     }
 
+    /**
+     *
+     * @param numeroPiste numéro de la piste
+     */
     public void setNumeroPiste(int numeroPiste) {
         this.numeroPiste = numeroPiste;
     }
 
+    /**
+     *
+     * @return titreChanson
+     */
     public String getTitreChanson() {
         return titreChanson;
     }
 
+    /**
+     *
+     * @param titreChanson titre de la chanson
+     */
     public void setTitreChanson(String titreChanson) {
         this.titreChanson = titreChanson;
     }

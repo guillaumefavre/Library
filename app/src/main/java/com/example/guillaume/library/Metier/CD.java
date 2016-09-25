@@ -57,8 +57,8 @@ public class CD extends AbstractLibraryElement implements Parcelable {
     /**
      * Constructeur
      *
-     * @param artiste
-     * @param titreAlbum
+     * @param artiste artiste
+     * @param titreAlbum titre de l'album
      */
     public CD(final String artiste, final String titreAlbum) {
         this.artiste = artiste;
@@ -66,40 +66,48 @@ public class CD extends AbstractLibraryElement implements Parcelable {
     }
 
     /**
-     * Constructeur
      *
-     * @param artiste
-     * @param titreAlbum
+     * @return idAlbum
      */
-    public CD(final String artiste, final String titreAlbum, final int pochette) {
-        this.artiste = artiste;
-        this.titreAlbum = titreAlbum;
-    }
-
     public String getIdAlbum() {
         return idAlbum;
     }
 
+    /**
+     *
+     * @param idAlbum identifiant de l'album
+     */
     public void setIdAlbum(String idAlbum) {
         this.idAlbum = idAlbum;
     }
 
-
+    /**
+     *
+     * @return idAlbumEdition identifiant de l'album
+     */
     public String getIdAlbumEdition() {
         return idAlbumEdition;
     }
 
+    /**
+     *
+     * @param idAlbumEdition identifiant de l'album
+     */
     public void setIdAlbumEdition(String idAlbumEdition) {
         this.idAlbumEdition = idAlbumEdition;
     }
 
+    /**
+     *
+     * @return artiste
+     */
     public String getArtiste() {
         return artiste;
     }
 
     /**
      *
-     * @param artiste
+     * @param artiste artiste
      */
     public void setArtiste(String artiste) {
         this.artiste = artiste;
@@ -107,7 +115,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @return
+     * @return titreAlbum
      */
     public String getTitreAlbum() {
         return titreAlbum;
@@ -115,7 +123,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @param titreAlbum
+     * @param titreAlbum titre de l'album
      */
     public void setTitreAlbum(String titreAlbum) {
         this.titreAlbum = titreAlbum;
@@ -123,7 +131,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @return
+     * @return anneSortie
      */
     public String getAnneSortie() {
         return anneSortie;
@@ -131,19 +139,23 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @param anneSortie
+     * @param anneSortie année de sortie de l'album
      */
     public void setAnneSortie(String anneSortie) {
         this.anneSortie = anneSortie;
     }
 
+    /**
+     *
+     * @return pochette
+     */
     public String getPochette() {
         return pochette;
     }
 
     /**
      *
-     * @param pochette
+     * @param pochette pochette de l'album
      */
     public void setPochette(String pochette) {
         this.pochette = pochette;
@@ -152,7 +164,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @return
+     * @return listePistes
      */
     public List<CDPiste> getListePistes() {
         return listePistes;
@@ -160,7 +172,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @param listePistes
+     * @param listePistes liste des pistes de l'album
      */
     public void setListePistes(List<CDPiste> listePistes) {
         this.listePistes = listePistes;

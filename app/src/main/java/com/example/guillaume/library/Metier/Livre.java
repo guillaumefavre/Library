@@ -38,8 +38,8 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
      * Constructeur
-     * @param titre
-     * @param auteur
+     * @param titre titre du livre
+     * @param auteur auteur du livre
      */
     public Livre(String titre, String auteur) {
         this.titre = titre;
@@ -56,7 +56,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @return
+     * @return identifiantFonctionnel
      */
     public String getIdentifiantFonctionnel() {
         return identifiantFonctionnel;
@@ -64,7 +64,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @param identifiantFonctionnel
+     * @param identifiantFonctionnel identifiant du livre
      */
     public void setIdentifiantFonctionnel(String identifiantFonctionnel) {
         this.identifiantFonctionnel = identifiantFonctionnel;
@@ -104,7 +104,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @return
+     * @return description
      */
     public String getDescription() {
         return description;
@@ -112,7 +112,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @param description
+     * @param description description du livre
      */
     public void setDescription(String description) {
         this.description = description;

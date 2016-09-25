@@ -15,8 +15,8 @@ public class BitmapUtils {
     /**
      * Méthode qui convertit un bitmap en String encodée en BAse64
      *
-     * @param bitmap
-     * @return
+     * @param bitmap image de type bitmap
+     * @return image encodée en base64
      */
     public static String convertBitmapEncodedBase64String(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -29,8 +29,8 @@ public class BitmapUtils {
     /**
      * Méthode qui convertit un String Base64 en bitmap
      *
-     * @param encodedImage
-     * @return
+     * @param encodedImage image encodée en base64
+     * @return image de type bitmap
      */
     public static Bitmap convertEncodedBase64StringToBitmap(String encodedImage) {
 
