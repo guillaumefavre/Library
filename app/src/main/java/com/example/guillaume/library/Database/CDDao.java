@@ -120,7 +120,7 @@ public class CDDao {
         cd.setTitreAlbum(cursor.getString(2));
         cd.setArtiste(cursor.getString(3));
         cd.setAnneSortie(cursor.getString(4));
-        cd.setPochette(cursor.getBlob(5));
+        cd.setPochette(cursor.getString(5));
 
         String str = cursor.getString(6);
         // Désérialisation de la liste des pistes

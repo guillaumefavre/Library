@@ -111,7 +111,7 @@ public class LivreDAO {
         livre.setAuteur(cursor.getString(2));
         livre.setIdentifiantFonctionnel(cursor.getString(3));
         livre.setDescription(cursor.getString(4));
-        livre.setCouverture(cursor.getBlob(5));
+        livre.setCouverture(cursor.getString(5));
         return livre;
     }
 

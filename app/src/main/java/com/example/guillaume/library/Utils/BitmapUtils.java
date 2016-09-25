@@ -2,6 +2,7 @@ package com.example.guillaume.library.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 
@@ -12,22 +13,28 @@ public class BitmapUtils {
 
 
     /**
-     * Méthode qui convertit un bitmap en tableau de bytes
+     * Méthode qui convertit un bitmap en String encodée en BAse64
+     *
      * @param bitmap
      * @return
      */
-    public static byte[] convertBitmapToBytesArray(Bitmap bitmap) {
+    public static String convertBitmapToBytesArray(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        return stream.toByteArray();
+        byte[] byteArray = stream.toByteArray();
+
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
     /**
-     * Méthode qui convertit un tableau de bytes en bitmap
-     * @param image
+     * Méthode qui convertit un String Base64 en bitmap
+     *
+     * @param encodedImage
      * @return
      */
-    public static Bitmap convertByteArrayToBitmap(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    public static Bitmap convertByteArrayToBitmap(String encodedImage) {
+
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 }

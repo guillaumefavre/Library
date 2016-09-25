@@ -32,7 +32,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
     /**
      * Couverture du livre
      */
-    private byte[] couverture;
+    private String couverture;
 
 
 
@@ -119,11 +119,11 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
     }
 
 
-    public byte[] getCouverture() {
+    public String getCouverture() {
         return couverture;
     }
 
-    public void setCouverture(byte[] couverture) {
+    public void setCouverture(String couverture) {
         this.couverture = couverture;
     }
 
@@ -137,8 +137,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
             livre.setTitre(parcel.readString());
             livre.setAuteur(parcel.readString());
             livre.setDescription(parcel.readString());
-            livre.setCouverture(new byte[parcel.readInt()]);
-            parcel.readByteArray(livre.getCouverture());
+            livre.setCouverture(parcel.readString());
             return livre;
         }
 
@@ -158,11 +157,7 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
         parcel.writeString(titre);
         parcel.writeString(auteur);
         parcel.writeString(description);
-        if(couverture != null) {
-            parcel.writeInt(couverture.length);
-            parcel.writeByteArray(couverture);
-        }
-
+        parcel.writeString(couverture);
     }
 
 }

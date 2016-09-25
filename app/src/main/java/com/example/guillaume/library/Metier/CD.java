@@ -40,7 +40,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
     /**
      * Pochette de l'album (int vers l'image mipmap)
      */
-    private byte[] pochette;
+    private String pochette;
 
 
     /**
@@ -137,7 +137,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
         this.anneSortie = anneSortie;
     }
 
-    public byte[] getPochette() {
+    public String getPochette() {
         return pochette;
     }
 
@@ -145,7 +145,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
      *
      * @param pochette
      */
-    public void setPochette(byte[] pochette) {
+    public void setPochette(String pochette) {
         this.pochette = pochette;
     }
 
@@ -177,8 +177,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
             cd.setArtiste(parcel.readString());
 
             // Pochette
-            cd.setPochette(new byte[parcel.readInt()]);
-            parcel.readByteArray(cd.getPochette());
+            cd.setPochette(parcel.readString());
 
             // Liste pistes
             cd.setListePistes(new ArrayList<CDPiste>());
@@ -201,10 +200,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(titreAlbum);
         parcel.writeString(artiste);
-        if(pochette != null) {
-            parcel.writeInt(pochette.length);
-            parcel.writeByteArray(pochette);
-        }
+        parcel.writeString(pochette);
         parcel.writeTypedList(listePistes);
     }
 }
