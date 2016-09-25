@@ -65,7 +65,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      */
     protected void onPreExecute() {
         dialog.setTitle("Récupération des informations");
-        dialog.setMessage("Veuillez patienter");
+        dialog.setMessage("Veuillez patienter...");
         dialog.show();
     }
 
