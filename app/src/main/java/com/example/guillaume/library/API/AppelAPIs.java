@@ -10,15 +10,14 @@ import android.widget.Toast;
 
 import com.example.guillaume.library.CommunActivity;
 import com.example.guillaume.library.Database.CDDao;
-import com.example.guillaume.library.Database.DatabaseHelper;
 import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Exceptions.ReponseAPIException;
-import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.R;
-import com.example.guillaume.library.UtilsBitmap;
+import com.example.guillaume.library.Utils.BitmapUtils;
+import com.example.guillaume.library.Utils.FormatUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,16 +117,16 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
         try {
             cd = rechercherCD(params[0]);
+
+            if(cd == null) {
+                livre = rechercherLivre(params[0]);
+            }
         } catch (ReponseAPIException e) {
             e.printStackTrace();
             reponseAPIException = e;
         } catch (SQLiteConstraintException e) {
             e.printStackTrace();
             sqLiteConstraintException = e;
-        }
-
-        if(cd == null) {
-            livre = rechercherLivre(params[0]);
         }
 
         return false;
@@ -140,7 +139,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      * @param cab
      * @return
      */
-    private Livre rechercherLivre(String cab) {
+    private Livre rechercherLivre(String cab) throws SQLiteConstraintException {
 
 
         Livre livre = null;
@@ -198,7 +197,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      * @param jsonObject
      * @return
      */
-    private Livre construireLivre(JSONObject jsonObject) {
+    private Livre construireLivre(JSONObject jsonObject) throws SQLiteConstraintException {
         Livre livre = null;
 
         if(jsonObject == null) {
@@ -216,6 +215,8 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
                 // Récupération des atuetrs du livre
                 recupererAuteurs(livre, jsoVolumeInfo);
+
+                recupererIdentifiantLivre(livre);
 
                 // Récupération de la description
                 recupererDescription(livre, jsoVolumeInfo);
@@ -286,6 +287,15 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
         }
     }
 
+    /**
+     * Récupération de l'identifiant fonctionnel du livre
+     *
+     * @param livre
+     */
+    private void recupererIdentifiantLivre(final Livre livre) {
+        livre.setIdentifiantFonctionnel(FormatUtils.genererIdentifiantLivre(livre.getAuteur(), livre.getTitre()));
+    }
+
 
     /**
      * Récupération de la description du livre
@@ -324,7 +334,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
                 }
 
                 if(couverture != null) {
-                    livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(couverture));
+                    livre.setCouverture(BitmapUtils.convertBitmapToBytesArray(couverture));
                 } else {
                     affecterCouvertureDefaut(livre);
                 }
@@ -344,7 +354,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      */
     private void affecterCouvertureDefaut(Livre livre) {
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_inconnu);
-        livre.setCouverture(UtilsBitmap.convertBitmapToBytesArray(bitmap));
+        livre.setCouverture(BitmapUtils.convertBitmapToBytesArray(bitmap));
     }
 
 
@@ -454,13 +464,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
                     cdDao.openDatabase();
 
                     // Ajout du CD à la base
-
-                    try {
-                        cdDao.ajouterCD(cd);
-                    } catch(SQLiteConstraintException ex) {
-                        System.out.println("cd déjà existant");
-                        throw ex;
-                    }
+                    cdDao.ajouterCD(cd);
                 }
 
 
@@ -669,7 +673,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             }
 
             if(pochette != null) {
-                cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(pochette));
+                cd.setPochette(BitmapUtils.convertBitmapToBytesArray(pochette));
             } else {
                 affecterPochetteDefaut(cd);
             }
@@ -687,7 +691,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      */
     private void affecterPochetteDefaut(CD cd) {
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_album_defaut);
-        cd.setPochette(UtilsBitmap.convertBitmapToBytesArray(bitmap));
+        cd.setPochette(BitmapUtils.convertBitmapToBytesArray(bitmap));
     }
 
     /**

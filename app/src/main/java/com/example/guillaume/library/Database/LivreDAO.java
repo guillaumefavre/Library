@@ -3,9 +3,11 @@ package com.example.guillaume.library.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
+import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.Livre;
 
 import java.util.ArrayList;
@@ -63,9 +65,19 @@ public class LivreDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.COL_TITRE, livre.getTitre());
         contentValues.put(DatabaseHelper.COL_AUTEUR, livre.getAuteur());
+        contentValues.put(DatabaseHelper.COL_ID_FONCTIONNEL, livre.getIdentifiantFonctionnel());
         contentValues.put(DatabaseHelper.COL_DESCRIPTION, livre.getDescription());
         contentValues.put(DatabaseHelper.COL_COUVERTURE, livre.getCouverture());
-        long insertId = database.insert(DatabaseHelper.TABLE_LIVRE, null, contentValues);
+
+        try {
+            long insertId = database.insertOrThrow(DatabaseHelper.TABLE_LIVRE, null, contentValues);
+        } catch(SQLiteConstraintException ex) {
+            if(ex.getMessage().contains("UNIQUE constraint failed")) {
+                throw new UniqueConstraintException(livre);
+            } else {
+                throw ex;
+            }
+        }
 
     }
 
@@ -74,7 +86,8 @@ public class LivreDAO {
         List<Livre> listeLivres = new ArrayList<Livre>();
 
 
-        String[] allColumns = { DatabaseHelper.COL_ID, DatabaseHelper.COL_TITRE, DatabaseHelper.COL_AUTEUR, DatabaseHelper.COL_DESCRIPTION, DatabaseHelper.COL_COUVERTURE };
+        String[] allColumns = { DatabaseHelper.COL_ID, DatabaseHelper.COL_TITRE, DatabaseHelper.COL_AUTEUR, DatabaseHelper.COL_ID_FONCTIONNEL,
+                DatabaseHelper.COL_DESCRIPTION, DatabaseHelper.COL_COUVERTURE };
 
 
         Cursor cursor = database.query(DatabaseHelper.TABLE_LIVRE, allColumns, null, null, null, null, null);
@@ -96,17 +109,15 @@ public class LivreDAO {
 //        livre.setId(cursor.getLong(0));
         livre.setTitre(cursor.getString(1));
         livre.setAuteur(cursor.getString(2));
-        livre.setDescription(cursor.getString(3));
-        livre.setCouverture(cursor.getBlob(4));
+        livre.setIdentifiantFonctionnel(cursor.getString(3));
+        livre.setDescription(cursor.getString(4));
+        livre.setCouverture(cursor.getBlob(5));
         return livre;
     }
 
     public int supprimerLivre(Livre livreASupprimer) {
 
-        // Création de la clause WHERE
-        final String whereClause = DatabaseHelper.COL_AUTEUR + " = '" +livreASupprimer.getAuteur() +"' AND " + DatabaseHelper.COL_TITRE + " = '" +livreASupprimer.getTitre() +"'";
-
         // Suppression du livre
-        return database.delete(DatabaseHelper.TABLE_LIVRE, whereClause, null);
+        return database.delete(DatabaseHelper.TABLE_LIVRE, DatabaseHelper.COL_ID_FONCTIONNEL + "='" +livreASupprimer.getIdentifiantFonctionnel() +"'", null);
     }
 }

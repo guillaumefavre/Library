@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.R;
-import com.example.guillaume.library.UtilsBitmap;
+import com.example.guillaume.library.Utils.BitmapUtils;
 
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class AdapteurListeCD extends ArrayAdapter<CD> {
         holder.titreAlbum.setText((CharSequence) cd.getTitreAlbum());
 
         if(cd.getPochette() != null) {
-            holder.pochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(cd.getPochette()));
+            holder.pochette.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(cd.getPochette()));
         } else {
             // TODO gérer pochette absente
             holder.pochette.setImageBitmap(null);

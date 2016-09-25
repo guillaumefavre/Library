@@ -1,4 +1,4 @@
-package com.example.guillaume.library;
+package com.example.guillaume.library.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 /**
  * Created by guillaume on 25/10/15.
  */
-public class UtilsBitmap {
+public class BitmapUtils {
 
 
     /**

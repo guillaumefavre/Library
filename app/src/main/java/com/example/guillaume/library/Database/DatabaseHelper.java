@@ -41,6 +41,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_TITRE = "titre";
 
     /**
+     * Colonne identifiant fonctionnel
+     */
+    public static final String COL_ID_FONCTIONNEL = "idFonctionnel";
+
+    /**
      * Colonne description
      */
     public static final String COL_DESCRIPTION = "description";
@@ -95,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Création de la table livre
     private static final String CREATE_TABLE_LIVRE = "CREATE TABLE " + TABLE_LIVRE
             + "(" + COL_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_TITRE + " TEXT NOT NULL, " + COL_AUTEUR +" TEXT, " + COL_DESCRIPTION +" TEXT, "+ COL_COUVERTURE +" BLOB);";
+            + COL_TITRE + " TEXT NOT NULL, " + COL_AUTEUR +" TEXT, " + COL_ID_FONCTIONNEL +" TEXT NOT NULL UNIQUE, " + COL_DESCRIPTION +" TEXT, "+ COL_COUVERTURE +" BLOB);";
 
 
     // Création de la table CD

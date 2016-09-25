@@ -12,6 +12,7 @@ import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Metier.Livre;
+import com.example.guillaume.library.Utils.BitmapUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -52,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
             txvLigne1.setText(livre.getTitre());
             txvLigne2.setText(livre.getAuteur());
             txvDescription.setText(livre.getDescription());
-            imvCouverturePochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
+            imvCouverturePochette.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(livre.getCouverture()));
 
         } else {
             CD cd = (CD) getIntent().getParcelableExtra(Constantes.CD_SELECT);
@@ -76,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             txvDescription.setText(afficherListePistes(cd));
 
             if(cd.getPochette() != null) {
-                imvCouverturePochette.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(cd.getPochette()));
+                imvCouverturePochette.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(cd.getPochette()));
             }
 
         }

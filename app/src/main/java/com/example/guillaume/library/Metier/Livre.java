@@ -9,6 +9,11 @@ import android.os.Parcelable;
 public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
+     * Identifiant fonctionnel (auteur + titre formattés)
+     */
+    private String identifiantFonctionnel;
+
+    /**
      * Titre du livre
      */
     private String titre;
@@ -47,6 +52,22 @@ public class Livre extends AbstractLibraryElement implements Parcelable {
      */
     public Livre() {
 
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getIdentifiantFonctionnel() {
+        return identifiantFonctionnel;
+    }
+
+    /**
+     *
+     * @param identifiantFonctionnel
+     */
+    public void setIdentifiantFonctionnel(String identifiantFonctionnel) {
+        this.identifiantFonctionnel = identifiantFonctionnel;
     }
 
     /**

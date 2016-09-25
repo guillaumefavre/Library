@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.R;
-import com.example.guillaume.library.UtilsBitmap;
+import com.example.guillaume.library.Utils.BitmapUtils;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
         holder.titre.setText((CharSequence) livre.getTitre());
         holder.auteur.setText((CharSequence) livre.getAuteur());
         if(livre.getCouverture() != null) {
-            holder.couverture.setImageBitmap(UtilsBitmap.convertByteArrayToBitmap(livre.getCouverture()));
+            holder.couverture.setImageBitmap(BitmapUtils.convertByteArrayToBitmap(livre.getCouverture()));
         } else {
             // TODO gérer couverture absente
             holder.couverture.setImageBitmap(null);
