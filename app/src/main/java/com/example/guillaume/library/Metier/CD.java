@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by guillaume on 13/08/15.
  */
-public class CD implements Parcelable {
+public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      * Identifiant de l'album

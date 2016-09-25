@@ -1,6 +1,7 @@
 package com.example.guillaume.library.API;
 
 import android.app.ProgressDialog;
+import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -9,8 +10,10 @@ import android.widget.Toast;
 
 import com.example.guillaume.library.CommunActivity;
 import com.example.guillaume.library.Database.CDDao;
+import com.example.guillaume.library.Database.DatabaseHelper;
 import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Exceptions.ReponseAPIException;
+import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Metier.Livre;
@@ -53,6 +56,8 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
     private ReponseAPIException reponseAPIException = null;
 
+    private SQLiteConstraintException sqLiteConstraintException = null;
+
 
     public AppelAPIs(CommunActivity activity) {
         this.activity = activity;
@@ -91,6 +96,8 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
             toast = Toast.makeText(activity, livre.getTitre() + " (de " +livre.getAuteur() + ") ajouté à la liste des livres", Toast.LENGTH_LONG);
         } else if(reponseAPIException != null) {
             toast = Toast.makeText(activity, reponseAPIException.getMessage(), Toast.LENGTH_LONG);
+        } else if(sqLiteConstraintException != null) {
+            toast = Toast.makeText(activity, sqLiteConstraintException.getMessage(), Toast.LENGTH_LONG);
         } else {
             toast = Toast.makeText(activity, "Aucune donnée trouvée", Toast.LENGTH_LONG);
         }
@@ -114,6 +121,9 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
         } catch (ReponseAPIException e) {
             e.printStackTrace();
             reponseAPIException = e;
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+            sqLiteConstraintException = e;
         }
 
         if(cd == null) {
@@ -339,7 +349,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
 
 
 
-    private CD rechercherCD(String cab) throws ReponseAPIException {
+    private CD rechercherCD(String cab) throws ReponseAPIException, SQLiteConstraintException {
 
         CD cd = null;
 
@@ -381,6 +391,8 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
         } catch (IOException e) {
             e.printStackTrace();
 //            throw new ReponseAPIException();
+        } catch (SQLiteConstraintException e) {
+            throw e;
         }
 
 
@@ -394,7 +406,7 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
      * @param responseJson
      * @return
      */
-    private CD construireCd(JSONObject responseJson) throws ReponseAPIException {
+    private CD construireCd(JSONObject responseJson) throws ReponseAPIException, SQLiteConstraintException {
         CD cd = null;
 
         if(responseJson == null) {
@@ -441,8 +453,14 @@ public class AppelAPIs extends AsyncTask<String, Void, Boolean> {
                     cdDao = new CDDao(activity);
                     cdDao.openDatabase();
 
-                    // AJout du CD
-                    cdDao.ajouterCD(cd);
+                    // Ajout du CD à la base
+
+                    try {
+                        cdDao.ajouterCD(cd);
+                    } catch(SQLiteConstraintException ex) {
+                        System.out.println("cd déjà existant");
+                        throw ex;
+                    }
                 }
 
 

@@ -3,10 +3,12 @@ package com.example.guillaume.library.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.provider.ContactsContract;
 
+import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.google.gson.Gson;
@@ -63,7 +65,7 @@ public class CDDao {
      *
      * @param cd
      */
-    public void ajouterCD(CD cd) {
+    public void ajouterCD(CD cd) throws UniqueConstraintException {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.COL_CD_ID_ALBUM, cd.getIdAlbum());
@@ -77,7 +79,17 @@ public class CDDao {
         String jsoListePistes = gson.toJson(cd.getListePistes());
         contentValues.put(DatabaseHelper.COL_CD_LISTE_PISTES, jsoListePistes);
 
-        long insertId = database.insert(DatabaseHelper.TABLE_CD, null, contentValues);
+        try {
+            long insertId = database.insertOrThrow(DatabaseHelper.TABLE_CD, null, contentValues);
+        } catch(SQLiteConstraintException ex) {
+            if(ex.getMessage().contains("UNIQUE constraint failed")) {
+                throw new UniqueConstraintException(cd);
+            } else {
+                throw ex;
+            }
+
+        }
+
 
     }
 

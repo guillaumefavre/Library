@@ -1,15 +1,12 @@
 package com.example.guillaume.library.Metier;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
 
 /**
  * Created by guillaume on 26/09/15.
  */
-public class Livre implements Parcelable {
+public class Livre extends AbstractLibraryElement implements Parcelable {
 
     /**
      * Titre du livre
