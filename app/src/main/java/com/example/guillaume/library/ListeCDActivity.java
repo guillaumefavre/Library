@@ -102,7 +102,7 @@ public class ListeCDActivity extends AppCompatActivity {
      * @param cdSelectionne
      */
     private void lancerActiviteSelectionCD(CD cdSelectionne) {
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = new Intent(this, DetailCDActivity.class);
         Bundle extras = new Bundle();
         extras.putParcelable(Constantes.CD_SELECT, cdSelectionne);
         intent.putExtras(extras);
