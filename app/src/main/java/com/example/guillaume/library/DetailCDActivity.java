@@ -16,6 +16,8 @@ import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Utils.BitmapUtils;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 public class DetailCDActivity extends AppCompatActivity {
 
     /**
@@ -59,9 +61,11 @@ public class DetailCDActivity extends AppCompatActivity {
         imvCouverturePochette = (ImageView) findViewById(R.id.imvCouverturePochette);
 
         // listview des pistes
-        adapteurListePistesCD = new AdapteurListePistesCD(this, cd.getListePistes());
-        listeViewListePistes = (ListView) findViewById(R.id.lstvPistes);
-        listeViewListePistes.setAdapter(adapteurListePistesCD);
+        if(CollectionUtils.isNotEmpty(cd.getListePistes())) {
+            adapteurListePistesCD = new AdapteurListePistesCD(this, cd.getListePistes());
+            listeViewListePistes = (ListView) findViewById(R.id.lstvPistes);
+            listeViewListePistes.setAdapter(adapteurListePistesCD);
+        }
 
 
         txvLigne1.setText(cd.getTitreAlbum());
