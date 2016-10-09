@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.provider.ContactsContract;
 
 import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.CD;
@@ -71,7 +70,7 @@ public class CDDao {
         contentValues.put(DatabaseHelper.COL_CD_ID_ALBUM, cd.getIdAlbum());
         contentValues.put(DatabaseHelper.COL_CD_TITRE_ALBUM, cd.getTitreAlbum());
         contentValues.put(DatabaseHelper.COL_CD_ARTISTE, cd.getArtiste());
-        contentValues.put(DatabaseHelper.COL_CD_ANNEE_SORTIE, cd.getAnneSortie());
+        contentValues.put(DatabaseHelper.COL_CD_ANNEE_SORTIE, cd.getDateSortie());
         contentValues.put(DatabaseHelper.COL_CD_POCHETTE, cd.getPochette());
 
         // Transformation de l'arraylist en jsonObject pour le stockage en base
@@ -119,7 +118,7 @@ public class CDDao {
         cd.setIdAlbum(cursor.getString(1));
         cd.setTitreAlbum(cursor.getString(2));
         cd.setArtiste(cursor.getString(3));
-        cd.setAnneSortie(cursor.getString(4));
+        cd.setDateSortie(cursor.getString(4));
         cd.setPochette(cursor.getString(5));
 
         String str = cursor.getString(6);

@@ -6,11 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.guillaume.library.Database.CDDao;
-import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Exceptions.ReponseAPIException;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
-import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.R;
 import com.example.guillaume.library.Utils.BitmapUtils;
 
@@ -320,7 +318,7 @@ public class CDApi {
      */
     private void recupererDateSortieAlbum(CD cd, JSONObject jsoReleaseGroup) throws JSONException {
         if (jsoReleaseGroup.has("first-release-date")) {
-            cd.setAnneSortie(jsoReleaseGroup.getString("first-release-date"));
+            cd.setDateSortie(jsoReleaseGroup.getString("first-release-date"));
         }
     }
 

@@ -72,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
 
             txvLigne1.setText(cd.getTitreAlbum());
             txvLigne2.setText(cd.getArtiste());
-            txvLigne3.setText(cd.getAnneSortie());
+            txvLigne3.setText(cd.getDateSortie());
 
             txvDescription.setText(afficherListePistes(cd));
 

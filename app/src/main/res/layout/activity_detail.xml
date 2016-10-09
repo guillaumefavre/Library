@@ -44,8 +44,7 @@
             <TextView
                 android:id="@+id/txv_ligne3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Année de parution" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

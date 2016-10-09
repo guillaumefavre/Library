@@ -33,9 +33,9 @@ public class CD extends AbstractLibraryElement implements Parcelable {
     private String titreAlbum;
 
     /**
-     * Année de sortie de l'album
+     * Date de sortie de l'album
      */
-    private String anneSortie;
+    private String dateSortie;
 
     /**
      * Pochette de l'album (int vers l'image mipmap)
@@ -131,18 +131,18 @@ public class CD extends AbstractLibraryElement implements Parcelable {
 
     /**
      *
-     * @return anneSortie
+     * @return dateSortie
      */
-    public String getAnneSortie() {
-        return anneSortie;
+    public String getDateSortie() {
+        return dateSortie;
     }
 
     /**
      *
-     * @param anneSortie année de sortie de l'album
+     * @param dateSortie année de sortie de l'album
      */
-    public void setAnneSortie(String anneSortie) {
-        this.anneSortie = anneSortie;
+    public void setDateSortie(String dateSortie) {
+        this.dateSortie = dateSortie;
     }
 
     /**
@@ -187,6 +187,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
             CD cd = new CD();
             cd.setTitreAlbum(parcel.readString());
             cd.setArtiste(parcel.readString());
+            cd.setDateSortie(parcel.readString());
 
             // Pochette
             cd.setPochette(parcel.readString());
@@ -212,6 +213,7 @@ public class CD extends AbstractLibraryElement implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(titreAlbum);
         parcel.writeString(artiste);
+        parcel.writeString(dateSortie);
         parcel.writeString(pochette);
         parcel.writeTypedList(listePistes);
     }
