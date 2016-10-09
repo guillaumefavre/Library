@@ -475,7 +475,8 @@ public class CDApi {
         int minutes = dureeSecondes / 60;
         int secondes = dureeSecondes % 60;
 
-        duree = String.valueOf(minutes) + ":" + String.valueOf(secondes);
+        // Formatage pour que le nombre de secondes soit sur deux chiffres
+        duree = String.valueOf(minutes) + ":" + String.format("%02d", secondes);
 
         return duree;
     }
