@@ -55,48 +55,10 @@ public class DetailActivity extends AppCompatActivity {
             txvDescription.setText(livre.getDescription());
             imvCouverturePochette.setImageBitmap(BitmapUtils.convertEncodedBase64StringToBitmap(livre.getCouverture()));
 
-        } else {
-            CD cd = (CD) getIntent().getParcelableExtra(Constantes.CD_SELECT);
-
-            layoutLivre = (LinearLayout) findViewById(R.id.layoutEnTete);
-
-            txvLigne1 = (TextView) findViewById(R.id.txv_ligne1);
-
-            txvLigne2 = (TextView) findViewById(R.id.txv_ligne2);
-
-            txvLigne3 = (TextView) findViewById(R.id.txv_ligne3);
-
-            imvCouverturePochette = (ImageView) findViewById(R.id.imvCouverturePochette);
-
-            txvDescription = (TextView) findViewById(R.id.txv_zone_description);
-
-            txvLigne1.setText(cd.getTitreAlbum());
-            txvLigne2.setText(cd.getArtiste());
-            txvLigne3.setText(cd.getDateSortie());
-
-            txvDescription.setText(afficherListePistes(cd));
-
-            if(cd.getPochette() != null) {
-                imvCouverturePochette.setImageBitmap(BitmapUtils.convertEncodedBase64StringToBitmap(cd.getPochette()));
-            }
-
         }
 
     }
 
-
-    private String afficherListePistes(CD cd) {
-
-        String listePistes = "";
-
-        if(cd.getListePistes() != null) {
-            for(final CDPiste piste : cd.getListePistes()) {
-                listePistes += piste.getNumeroPiste() + " " + piste.getTitre() +" " + piste.getDuree() + "\n";
-            }
-        }
-
-        return listePistes;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
