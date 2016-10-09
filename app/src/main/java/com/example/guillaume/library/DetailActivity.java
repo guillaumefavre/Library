@@ -91,7 +91,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if(cd.getListePistes() != null) {
             for(final CDPiste piste : cd.getListePistes()) {
-                listePistes += piste.getTitreChanson() + "\n";
+                listePistes += piste.getNumeroPiste() + " " + piste.getTitre() +" " + piste.getDuree() + "\n";
             }
         }
 

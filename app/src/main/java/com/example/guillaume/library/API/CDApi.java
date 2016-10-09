@@ -445,7 +445,13 @@ public class CDApi {
                     CDPiste piste = new CDPiste();
                     if(track.has("number") && track.has("title")) {
                         piste.setNumeroPiste(Integer.parseInt(track.getString("number")));
-                        piste.setTitreChanson(track.getString("title"));
+                        piste.setTitre(track.getString("title"));
+
+                        if(track.has("length")) {
+                            String duree = calculerDuree(Integer.valueOf(track.getString("length")));
+                            piste.setDuree(duree);
+                        }
+
                         listePistes.add(piste);
                     }
                 }
@@ -454,6 +460,24 @@ public class CDApi {
             }
         }
 
+    }
+
+    /**
+     * Calcul de la durée d'une piste (au format mm:ss) à partir d'un nombre de millisecondes
+     *
+     * @param dureeMilliSecondes durée en millisecondes
+     * @return duree (format mm:ss)
+     */
+    private String calculerDuree(int dureeMilliSecondes) {
+        String duree;
+
+        int dureeSecondes = dureeMilliSecondes / 1000;
+        int minutes = dureeSecondes / 60;
+        int secondes = dureeSecondes % 60;
+
+        duree = String.valueOf(minutes) + ":" + String.valueOf(secondes);
+
+        return duree;
     }
 
 }

@@ -16,8 +16,12 @@ public class CDPiste implements Parcelable {
     /**
      * Nom de la chanson
      */
-    private String titreChanson;
+    private String titre;
 
+    /**
+     * Durée de la piste (format mm:ss)
+     */
+    private String duree;
 
     /**
      *
@@ -37,18 +41,34 @@ public class CDPiste implements Parcelable {
 
     /**
      *
-     * @return titreChanson
+     * @return titre
      */
-    public String getTitreChanson() {
-        return titreChanson;
+    public String getTitre() {
+        return titre;
     }
 
     /**
      *
-     * @param titreChanson titre de la chanson
+     * @param titre titre de la chanson
      */
-    public void setTitreChanson(String titreChanson) {
-        this.titreChanson = titreChanson;
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getDuree() {
+        return duree;
+    }
+
+    /**
+     *
+     * @param duree
+     */
+    public void setDuree(String duree) {
+        this.duree = duree;
     }
 
     /**
@@ -59,7 +79,8 @@ public class CDPiste implements Parcelable {
         public CDPiste createFromParcel(Parcel parcel) {
             CDPiste cdPiste = new CDPiste();
             cdPiste.setNumeroPiste(parcel.readInt());
-            cdPiste.setTitreChanson(parcel.readString());
+            cdPiste.setTitre(parcel.readString());
+            cdPiste.setDuree(parcel.readString());
             return cdPiste;
         }
 
@@ -77,6 +98,7 @@ public class CDPiste implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(numeroPiste);
-        parcel.writeString(titreChanson);
+        parcel.writeString(titre);
+        parcel.writeString(duree);
     }
 }
