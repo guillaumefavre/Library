@@ -24,6 +24,8 @@ public class MainActivity extends CommunActivity {
 
     private ImageButton btnCodeBarre;
 
+    private ImageButton btnAjoutProduit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,15 @@ public class MainActivity extends CommunActivity {
             }
         });
 
+        // Action sur le clic du bouton d'ajout d'un produit
+        btnAjoutProduit = (ImageButton) findViewById(R.id.btnAjoutProduit);
+        btnAjoutProduit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lancerActiviteAjoutProduit();
+            }
+        });
+
         // Action lors du clic sur le FAB
         instancierFAB();
 
@@ -67,6 +78,8 @@ public class MainActivity extends CommunActivity {
         }
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,7 +125,14 @@ public class MainActivity extends CommunActivity {
      * Méthode qui lance l'activité permettant de scanner un code à barres
      */
     private void lancerActiviteScanCAB() {
-//        Intent intent = new Intent(this, ScanCABActivity.class);
-//        startActivity(intent);
+        lancerScan();
+    }
+
+    /**
+     * Méthode qui lance l'activité d'ajout d'un produit
+     */
+    private void lancerActiviteAjoutProduit() {
+        Intent intent = new Intent(this, AjoutActivity.class);
+        startActivity(intent);
     }
 }

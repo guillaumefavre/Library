@@ -43,7 +43,7 @@ public class CommunActivity extends AppCompatActivity {
     /**
      * Méthode appelée lors d'un clic sur le bouton de scan
      */
-    private void lancerScan() {
+    protected void lancerScan() {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
     }
