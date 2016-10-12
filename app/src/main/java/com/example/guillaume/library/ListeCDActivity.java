@@ -18,7 +18,7 @@ import com.example.guillaume.library.Metier.CD;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListeCDActivity extends AppCompatActivity {
+public class ListeCDActivity extends CommunActivity {
 
     /**
      * Liste des CDs à afficher
@@ -93,6 +93,9 @@ public class ListeCDActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // Action lors du clic sur le FAB
+        instancierFAB();
     }
 
 
