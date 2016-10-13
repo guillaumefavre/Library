@@ -22,18 +22,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="20dp"
-            android:background="#1bff0000"
             android:layout_gravity="center_vertical">
 
 
             <TextView
-                android:id="@+id/nomArtiste"
+                android:id="@+id/titreAlbum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold" />
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/titreAlbum"
+                android:id="@+id/nomArtiste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
