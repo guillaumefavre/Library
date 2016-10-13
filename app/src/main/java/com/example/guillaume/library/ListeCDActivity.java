@@ -11,11 +11,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeCD;
+import com.example.guillaume.library.Comparator.CDComparator;
 import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListeCDActivity extends CommunActivity {
@@ -53,9 +55,10 @@ public class ListeCDActivity extends CommunActivity {
 
         listeCDs = cdDao.selectionnerCDs();
 
-
-
         adapteurListeCD = new AdapteurListeCD(this, listeCDs);
+
+        // Tri de la liste des CDs
+        adapteurListeCD.sort(new CDComparator());
 
         listeViewListeCD = (ListView) findViewById(R.id.lstvListeCd);
         listeViewListeCD.setAdapter(adapteurListeCD);
