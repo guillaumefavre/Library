@@ -19,11 +19,13 @@ public class CDComparator implements Comparator<CD> {
     @Override
     public int compare(CD cd1, CD cd2) {
 
+        // Premier tri à partir du nom de l'artiste
         int compareArtiste = cd1.getArtiste().compareTo(cd2.getArtiste());
 
         if(compareArtiste != 0) {
             return compareArtiste;
         } else {
+            // Si l'artiste est identique, tri en fonction de la date de sortie de l'album
             return cd1.getDateSortie().toString().compareTo(cd2.getDateSortie().toString());
         }
     }
