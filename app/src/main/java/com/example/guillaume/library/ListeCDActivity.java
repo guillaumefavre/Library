@@ -3,9 +3,12 @@ package com.example.guillaume.library;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,6 +18,8 @@ import com.example.guillaume.library.Comparator.CDComparator;
 import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,6 +47,7 @@ public class ListeCDActivity extends CommunActivity {
      * CD Dao
      */
     private CDDao cdDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,32 +79,102 @@ public class ListeCDActivity extends CommunActivity {
             }
         });
 
-        // Clic long sur un livre
-        listeViewListeCD.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        // AUtorisation de la sélection de plusieurs items
+        listeViewListeCD.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+        listeViewListeCD.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+            /**
+             * Liste des CDs sélectionnés
+             */
+            private List<CD> listeCDSelectionnes;
+
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                // Affichage du menu suite à un clic long sur un item
+                getMenuInflater().inflate(R.menu.menu_liste_cd, menu);
 
-                final CD cdSelectionne = (CD) adapterView.getItemAtPosition(position);
-
-//                Toast.makeText(getApplicationContext(), "Clic long cd : " + cdSelectionne.getTitreAlbum(), Toast.LENGTH_SHORT).show();
-
-                int suppr = cdDao.supprimerCD(cdSelectionne);
-
-                if(suppr > 0) {
-                    listeCDs.remove(cdSelectionne);
-
-                    // Refresh de la vue
-                    adapteurListeCD.notifyDataSetChanged();
-
-                    Toast.makeText(getApplicationContext(), "Suppression cd : " + cdSelectionne.getTitreAlbum(), Toast.LENGTH_SHORT).show();
-                }
+                listeCDSelectionnes = new ArrayList<CD>();
 
                 return true;
             }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                // Here you can perform updates to the CAB due to
+                // an invalidate() request
+                return false;
+            }
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode actionMode, int positionItem, long id, boolean checked) {
+
+                final CD cdSelectionne = (CD) listeViewListeCD.getItemAtPosition(positionItem);
+
+                if(checked) {
+                    // Ajout de l'élément sélectionné à la liste
+                    listeCDSelectionnes.add(cdSelectionne);
+                } else {
+                    // Suppression de l'élément désélectionné de la liste
+                    listeCDSelectionnes.remove(cdSelectionne);
+                }
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+
+                int id = menuItem.getItemId();
+
+                // Respond to clicks on the actions in the CAB
+                switch (id) {
+                    case R.id.action_supprimer:
+                        supprimerCds(listeCDSelectionnes);
+                        actionMode.finish(); // Action picked, so close the CAB
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                System.out.println("onDestroyActionMode");
+                // Here you can make any necessary updates to the activity when
+                // the CAB is removed. By default, selected items are deselected/unchecked.
+            }
         });
+
 
         // Action lors du clic sur le FAB
         instancierFAB();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cd);
+        // On indique à la toolbar d'agir comme une actionbar
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+    }
+
+
+    /**
+     * Suppression d'une liste de CDs
+     *
+     * @param cdsASupprimer
+     */
+    private void supprimerCds(List<CD> cdsASupprimer) {
+
+        for(CD cd : cdsASupprimer) {
+            int suppr = cdDao.supprimerCD(cd);
+
+            if(suppr > 0) {
+                listeCDs.remove(cd);
+
+                Toast.makeText(getApplicationContext(), "Suppression cd : " + cd.getTitreAlbum(), Toast.LENGTH_SHORT).show();
+            }
+
+            // Refresh de la vue
+            adapteurListeCD.notifyDataSetChanged();
+        }
     }
 
 
@@ -118,7 +194,7 @@ public class ListeCDActivity extends CommunActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_liste_cd, menu);
+//        getMenuInflater().inflate(R.menu.menu_liste_cd, menu);
         return true;
     }
 
@@ -128,11 +204,6 @@ public class ListeCDActivity extends CommunActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

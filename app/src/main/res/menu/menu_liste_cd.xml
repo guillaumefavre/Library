@@ -2,9 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.guillaume.library.ListeCDActivity">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_supprimer"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="Supprimer"
+        android:icon="@drawable/ic_poubelle"
+        app:showAsAction="ifRoom" />
+
 </menu>
