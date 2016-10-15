@@ -1,6 +1,7 @@
 package com.example.guillaume.library;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -79,6 +80,7 @@ public class ListeCDActivity extends CommunActivity {
             }
         });
 
+
         // AUtorisation de la sélection de plusieurs items
         listeViewListeCD.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
@@ -91,7 +93,11 @@ public class ListeCDActivity extends CommunActivity {
 
             @Override
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                // Affichage du menu suite à un clic long sur un item
+
+                // On cache la toolbar par défaut de l'écran
+                getSupportActionBar().hide();
+
+                // On affiche la toolbar spécifique suite à un clic long sur un item
                 getMenuInflater().inflate(R.menu.menu_liste_cd, menu);
 
                 listeCDSelectionnes = new ArrayList<CD>();
@@ -138,9 +144,11 @@ public class ListeCDActivity extends CommunActivity {
 
             @Override
             public void onDestroyActionMode(ActionMode actionMode) {
-                System.out.println("onDestroyActionMode");
                 // Here you can make any necessary updates to the activity when
                 // the CAB is removed. By default, selected items are deselected/unchecked.
+
+                // On réaffiche la toolbar par défaut de l'écran
+                getSupportActionBar().show();
             }
         });
 
