@@ -1,8 +1,6 @@
 package com.example.guillaume.library;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
@@ -20,10 +18,8 @@ import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Metier.CD;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
 
 public class ListeCDActivity extends CommunActivity {
@@ -81,15 +77,14 @@ public class ListeCDActivity extends CommunActivity {
         });
 
 
+//        mAdapter = new SelectionAdapter(this,
+//                R.layout.layout_liste_cd_item, R.id.titreAlbum, listeCDs);
+//        listeViewListeCD.setAdapter(mAdapter);
+
         // AUtorisation de la sélection de plusieurs items
         listeViewListeCD.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         listeViewListeCD.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-
-            /**
-             * Liste des CDs sélectionnés
-             */
-            private List<CD> listeCDSelectionnes;
 
             @Override
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -99,8 +94,6 @@ public class ListeCDActivity extends CommunActivity {
 
                 // On affiche la toolbar spécifique suite à un clic long sur un item
                 getMenuInflater().inflate(R.menu.menu_liste_cd, menu);
-
-                listeCDSelectionnes = new ArrayList<CD>();
 
                 return true;
             }
@@ -119,10 +112,10 @@ public class ListeCDActivity extends CommunActivity {
 
                 if(checked) {
                     // Ajout de l'élément sélectionné à la liste
-                    listeCDSelectionnes.add(cdSelectionne);
+                    adapteurListeCD.addItemSelectionne(positionItem, cdSelectionne);
                 } else {
                     // Suppression de l'élément désélectionné de la liste
-                    listeCDSelectionnes.remove(cdSelectionne);
+                    adapteurListeCD.removeItemSelectionne(positionItem);
                 }
             }
 
@@ -134,7 +127,8 @@ public class ListeCDActivity extends CommunActivity {
                 // Respond to clicks on the actions in the CAB
                 switch (id) {
                     case R.id.action_supprimer:
-                        supprimerCds(listeCDSelectionnes);
+                        Collection<CD> cdsASupprimer = adapteurListeCD.getCDsSelectionnes();
+                        supprimerCds(cdsASupprimer);
                         actionMode.finish(); // Action picked, so close the CAB
                         return true;
                     default:
@@ -148,6 +142,7 @@ public class ListeCDActivity extends CommunActivity {
                 // the CAB is removed. By default, selected items are deselected/unchecked.
 
                 // On réaffiche la toolbar par défaut de l'écran
+                adapteurListeCD.clearSelection();
                 getSupportActionBar().show();
             }
         });
@@ -169,7 +164,7 @@ public class ListeCDActivity extends CommunActivity {
      *
      * @param cdsASupprimer
      */
-    private void supprimerCds(List<CD> cdsASupprimer) {
+    private void supprimerCds(Collection<CD> cdsASupprimer) {
 
         for(CD cd : cdsASupprimer) {
             int suppr = cdDao.supprimerCD(cd);
@@ -215,4 +210,52 @@ public class ListeCDActivity extends CommunActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+//    private class SelectionAdapter extends ArrayAdapter<CD> {
+//
+//        private Map<Integer, Boolean> mSelection = new HashMap<Integer, Boolean>();
+//
+//        public SelectionAdapter(Context context, int resource,
+//                                int textViewResourceId, List<CD> objects) {
+//            super(context, resource, textViewResourceId, objects);
+//        }
+//
+//        public void addItemSelectionne(int position, boolean value) {
+//            mSelection.put(position, value);
+//            notifyDataSetChanged();
+//        }
+//
+//        public boolean isPositionChecked(int position) {
+//            Boolean result = mSelection.get(position);
+//            return result == null ? false : result;
+//        }
+//
+//        public Set<Integer> getCurrentCheckedPosition() {
+//            return mSelection.keySet();
+//        }
+//
+//        public void removeItemSelectionne(int position) {
+//            mSelection.remove(position);
+//            notifyDataSetChanged();
+//        }
+//
+//        public void clearSelection() {
+//            mSelection = new HashMap<Integer, Boolean>();
+//            notifyDataSetChanged();
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            View v = super.getView(position, convertView, parent);//let the adapter handle setting up the row views
+//            v.setBackgroundColor(Color.parseColor("#FFFFFF")); //default color
+//            if (mSelection.get(position) != null) {
+//                v.setBackgroundColor(Color.CYAN);// this is a selected position so make it red
+//            }
+//            return v;
+//        }
+//
+//    }
 }
