@@ -25,6 +25,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by guillaume on 04/10/16.
@@ -432,32 +435,59 @@ public class CDApi {
         if(responseJson != null) {
             JSONArray media = responseJson.getJSONArray("media");
 
-            JSONObject jsoMedia = media.getJSONObject(0);
+            // TODO gestion des double-cd sous forme de Map
 
-            if(jsoMedia.has("tracks")) {
-                JSONArray tracks = jsoMedia.getJSONArray("tracks");
-                ArrayList<CDPiste> listePistes = new ArrayList<CDPiste>();
+//            Map<Integer, List<CDPiste>> mapPistes = new HashMap<Integer, List<CDPiste>>();
 
-                for(int i=0; i < tracks.length(); i++) {
+            List<CDPiste> listePistes = new ArrayList<CDPiste>();
 
-                    JSONObject track = tracks.getJSONObject(i);
+            // Parcours des différents CDs de l'album
+            for(int i=0; i < media.length(); i++) {
 
-                    CDPiste piste = new CDPiste();
-                    if(track.has("number") && track.has("title")) {
-                        piste.setNumeroPiste(Integer.parseInt(track.getString("number")));
-                        piste.setTitre(track.getString("title"));
+                // Récupération de l'album
+                JSONObject jsoMedia = media.getJSONObject(i);
 
-                        if(track.has("length")) {
-                            String duree = calculerDuree(Integer.valueOf(track.getString("length")));
-                            piste.setDuree(duree);
+                // Vérification que c'est bien un CD (cas des coffrets CD + DVD)
+                if(jsoMedia.has("format")) {
+
+                    String format = jsoMedia.getString("format");
+
+                    if("CD".equals(format)) {
+
+                        if(jsoMedia.has("tracks")) {
+                            JSONArray tracks = jsoMedia.getJSONArray("tracks");
+
+                            for(int j=0; j < tracks.length(); j++) {
+
+                                JSONObject track = tracks.getJSONObject(j);
+
+                                CDPiste piste = new CDPiste();
+                                if(track.has("number") && track.has("title")) {
+                                    piste.setNumeroPiste(Integer.parseInt(track.getString("number")));
+                                    piste.setTitre(track.getString("title"));
+
+                                    if(track.has("length")) {
+                                        String duree = calculerDuree(Integer.valueOf(track.getString("length")));
+                                        piste.setDuree(duree);
+                                    }
+
+                                    listePistes.add(piste);
+                                }
+                            }
+
                         }
 
-                        listePistes.add(piste);
+//                        mapPistes.put(i, listePistes);
                     }
+
                 }
-                cd.setListePistes(listePistes);
 
             }
+
+            cd.setListePistes(listePistes);
+
+//            cd.setMapPistes(mapPistes);
+
         }
 
     }
