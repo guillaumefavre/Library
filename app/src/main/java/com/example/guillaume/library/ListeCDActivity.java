@@ -1,6 +1,8 @@
 package com.example.guillaume.library;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -72,7 +75,7 @@ public class ListeCDActivity extends CommunActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 final CD cdSelectionne = (CD) adapterView.getItemAtPosition(position);
-                lancerActiviteSelectionCD(cdSelectionne);
+                lancerActiviteSelectionCD(cdSelectionne, adapterView);
             }
         });
 
@@ -186,12 +189,21 @@ public class ListeCDActivity extends CommunActivity {
      *
      * @param cdSelectionne
      */
-    private void lancerActiviteSelectionCD(CD cdSelectionne) {
+    private void lancerActiviteSelectionCD(CD cdSelectionne, AdapterView view) {
         Intent intent = new Intent(this, DetailCDActivity.class);
         Bundle extras = new Bundle();
         extras.putParcelable(Constantes.CD_SELECT, cdSelectionne);
         intent.putExtras(extras);
-        startActivity(intent);
+
+        // Transition
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ImageView pochette = (ImageView) view.findViewById(R.id.imvPochetteAlbum);
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+//            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, pochette, pochette.getTransitionName()).toBundle();
+            startActivity(intent,bundle);
+        } else {
+            startActivity(intent);
+        }
     }
 
     @Override
