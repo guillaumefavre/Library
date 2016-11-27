@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeLivres;
+import com.example.guillaume.library.Comparator.CDComparator;
+import com.example.guillaume.library.Comparator.LivreComparator;
 import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Metier.CD;
@@ -56,6 +58,9 @@ public class ListeLivresActivity extends CommunActivity {
 
 
         adapteurListeLivres = new AdapteurListeLivres(this, listeLivres);
+
+        // Tri de la liste des livres
+        adapteurListeLivres.sort(new LivreComparator());
 
         listeViewListeLivres = (ListView) findViewById(R.id.lstvListeLivres);
         listeViewListeLivres.setAdapter(adapteurListeLivres);
