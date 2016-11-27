@@ -35,7 +35,7 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
 
 
     public AdapteurListeLivres(final Context context, final List<Livre> listeLivres) {
-        super(context, R.layout.layout_list_livre_item, listeLivres);
+        super(context, R.layout.layout_liste_livre_item, listeLivres);
         inflater = LayoutInflater.from(context);
     }
 
@@ -46,7 +46,7 @@ public class AdapteurListeLivres extends ArrayAdapter<Livre> {
         livre = (Livre) getItem(position);
 
         if(convertView == null) {
-            convertView = inflater.inflate(R.layout.layout_list_livre_item, null);
+            convertView = inflater.inflate(R.layout.layout_liste_livre_item, null);
 
             holder = new ViewHolder();
             holder.titre = (TextView) convertView.findViewById(R.id.titreLivre);

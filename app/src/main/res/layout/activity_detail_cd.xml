@@ -19,8 +19,7 @@
         <ImageView
             android:id="@+id/imvCouverturePochette"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:transitionName="transitionPochette"/>
+            android:layout_height="wrap_content"/>
 
 
         <LinearLayout

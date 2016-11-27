@@ -1,14 +1,14 @@
 package com.example.guillaume.library;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Adapteurs.AdapteurListeLivres;
@@ -16,7 +16,6 @@ import com.example.guillaume.library.Constantes.Constantes;
 import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Metier.Livre;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListeLivresActivity extends CommunActivity {
@@ -102,11 +101,19 @@ public class ListeLivresActivity extends CommunActivity {
      * @param livreSelectionne
      */
     private void lancerActiviteSelectionLivre(Livre livreSelectionne) {
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = new Intent(this, DetailLivreActivity.class);
         Bundle extras = new Bundle();
         extras.putParcelable(Constantes.LIVRE_SELECT, livreSelectionne);
         intent.putExtras(extras);
-        startActivity(intent);
+
+
+        // Transition
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+            startActivity(intent,bundle);
+        } else {
+            startActivity(intent);
+        }
     }
 
     @Override

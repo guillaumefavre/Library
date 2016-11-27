@@ -9,12 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.guillaume.library.Constantes.Constantes;
-import com.example.guillaume.library.Metier.CD;
-import com.example.guillaume.library.Metier.CDPiste;
 import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.Utils.BitmapUtils;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailLivreActivity extends AppCompatActivity {
 
     /**
      * Layout d'un Livre
@@ -25,8 +23,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView txvLigne2;
 
-    private TextView txvLigne3;
-
     private TextView txvDescription;
 
     private ImageView imvCouverturePochette;
@@ -34,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail_livre);
 
         Livre livre = (Livre) getIntent().getParcelableExtra(Constantes.LIVRE_SELECT);
 
