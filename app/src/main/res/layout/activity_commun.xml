@@ -14,7 +14,7 @@
         app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
-        app:backgroundTint="@color/zxing_possible_result_points"
+        app:backgroundTint="@color/yellow"
         />
 
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -48,6 +49,11 @@ public class ListeCDActivity extends CommunActivity {
      */
     private CDDao cdDao;
 
+
+    @Override
+    public MenuInflater getMenuInflater() {
+        return super.getMenuInflater();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +160,7 @@ public class ListeCDActivity extends CommunActivity {
         // Action lors du clic sur le FAB
         instancierFAB();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cd);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // On indique à la toolbar d'agir comme une actionbar
         if(toolbar != null) {
             setSupportActionBar(toolbar);
