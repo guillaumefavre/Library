@@ -68,9 +68,6 @@ public class MainActivity extends CommunActivity {
             }
         });
 
-        // Action lors du clic sur le FAB
-        instancierFAB();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // On indique à la toolbar d'agir comme une actionbar
