@@ -25,9 +25,6 @@
             android:name=".ListeCDActivity"
             android:label="@string/title_activity_liste_cd"></activity>
         <activity
-            android:name=".ScanCABActivity"
-            android:label="@string/title_activity_scan_cab"></activity>
-        <activity
             android:name=".ListeLivresActivity"
             android:label="@string/title_activity_liste_livres"></activity>
         <activity

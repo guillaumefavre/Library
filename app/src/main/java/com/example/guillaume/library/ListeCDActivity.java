@@ -84,7 +84,7 @@ public class ListeCDActivity extends CommunActivity {
 //                R.layout.layout_liste_cd_item, R.id.titreAlbum, listeCDs);
 //        listeViewListeCD.setAdapter(mAdapter);
 
-        // AUtorisation de la sélection de plusieurs items
+        // Autorisation de la sélection de plusieurs items
         listeViewListeCD.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         listeViewListeCD.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
