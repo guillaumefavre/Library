@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Constantes.Constantes;
+import com.example.guillaume.library.Database.CDDao;
 import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Metier.AbstractLibraryElement;
 import com.example.guillaume.library.Metier.CD;
@@ -150,6 +151,10 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
                     cd.setTitreAlbum(edtTitreCd.getText().toString());
                     cd.setDateSortie(edtAnneeCd.getText().toString());
 
+                    // Pochette par défaut
+                    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_album_defaut);
+                    cd.setPochette(BitmapUtils.convertBitmapEncodedBase64String(bitmap));
+
                     enregistrerMedia(cd);
                 }
 
@@ -188,7 +193,24 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
             }
 
         } else if(media instanceof CD) {
-            toast = Toast.makeText(this, "Enregistrer CD...", Toast.LENGTH_SHORT);
+            CDDao cdDao = new CDDao(this);
+            cdDao.openDatabase();
+
+
+            try {
+                // Ajout du CD en base
+                cdDao.ajouterCD((CD) media);
+
+                toast = Toast.makeText(this, "Enregistrer CD...", Toast.LENGTH_SHORT);
+            } catch (SQLiteConstraintException e) {
+                // Gestion des exceptions (doublon en base...)
+                toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            }finally {
+                // Fermeture de la connexion à la BDD
+                if(cdDao != null) {
+                    cdDao.closeDatabase();
+                }
+            }
         }
 
         toast.show();

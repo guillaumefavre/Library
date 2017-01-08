@@ -10,8 +10,11 @@ import android.database.sqlite.SQLiteException;
 import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.CDPiste;
+import com.example.guillaume.library.Utils.FormatUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -67,7 +70,11 @@ public class CDDao {
     public void ajouterCD(CD cd) throws UniqueConstraintException {
 
         ContentValues contentValues = new ContentValues();
+        if(StringUtils.isBlank(cd.getIdAlbum())) {
+            cd.setIdAlbum(FormatUtils.genererIdentifiantLivre(cd.getArtiste(), cd.getTitreAlbum()));
+        }
         contentValues.put(DatabaseHelper.COL_CD_ID_ALBUM, cd.getIdAlbum());
+
         contentValues.put(DatabaseHelper.COL_CD_TITRE_ALBUM, cd.getTitreAlbum());
         contentValues.put(DatabaseHelper.COL_CD_ARTISTE, cd.getArtiste());
         contentValues.put(DatabaseHelper.COL_CD_ANNEE_SORTIE, cd.getDateSortie());
