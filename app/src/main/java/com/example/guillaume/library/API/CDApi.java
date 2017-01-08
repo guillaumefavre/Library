@@ -25,9 +25,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by guillaume on 04/10/16.
@@ -57,7 +55,7 @@ public class CDApi {
 
         if(cd != null) {
             // Enregistrement du livre en base
-            enregistrerLivreBdd(cd);
+            enregistrerCdBdd(cd);
         }
 
         return cd;
@@ -188,7 +186,7 @@ public class CDApi {
      *
      * @param cd cd à enregistrer
      */
-    private void enregistrerLivreBdd(CD cd) {
+    private void enregistrerCdBdd(CD cd) {
 
         // Ouverture de la connexion à la BDD
         cdDao = new CDDao(context);
