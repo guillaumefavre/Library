@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 
 import com.example.guillaume.library.Exceptions.UniqueConstraintException;
 import com.example.guillaume.library.Metier.Livre;
+import com.example.guillaume.library.Utils.FormatUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class LivreDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.COL_TITRE, livre.getTitre());
         contentValues.put(DatabaseHelper.COL_AUTEUR, livre.getAuteur());
+        livre.setIdentifiantFonctionnel(FormatUtils.genererIdentifiantLivre(livre.getAuteur(), livre.getTitre()));
         contentValues.put(DatabaseHelper.COL_ID_FONCTIONNEL, livre.getIdentifiantFonctionnel());
         contentValues.put(DatabaseHelper.COL_DESCRIPTION, livre.getDescription());
         contentValues.put(DatabaseHelper.COL_COUVERTURE, livre.getCouverture());
@@ -78,7 +80,6 @@ public class LivreDAO {
                 throw ex;
             }
         }
-
     }
 
 

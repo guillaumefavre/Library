@@ -1,5 +1,8 @@
 package com.example.guillaume.library;
 
+import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,9 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Constantes.Constantes;
+import com.example.guillaume.library.Database.LivreDAO;
 import com.example.guillaume.library.Metier.AbstractLibraryElement;
 import com.example.guillaume.library.Metier.CD;
 import com.example.guillaume.library.Metier.Livre;
+import com.example.guillaume.library.Utils.BitmapUtils;
+import com.example.guillaume.library.Utils.FormatUtils;
 
 public class AjoutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -111,6 +117,9 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
                 livre.setAuteur(edtAuteurLivre.getText().toString());
                 livre.setTitre(edtTitreLivre.getText().toString());
 
+                // Couverture par défaut
+                Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_inconnu);
+                livre.setCouverture(BitmapUtils.convertBitmapEncodedBase64String(bitmap));
                 enregistrerMedia(livre);
                 break;
             case "CD":
@@ -139,7 +148,25 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
         Toast toast = null;
 
         if(media instanceof Livre) {
-            toast = Toast.makeText(this, "Enregistrer livre...", Toast.LENGTH_SHORT);
+
+            LivreDAO livreDao = new LivreDAO(this);
+            livreDao.openDatabase();
+
+            try {
+                // Ajout du livre en base
+                livreDao.ajouterLivre((Livre) media);
+
+                toast = Toast.makeText(this, "Enregistrer livre...", Toast.LENGTH_SHORT);
+            } catch (SQLiteConstraintException e) {
+                // Gestion des exceptions (doublon en base...)
+                toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            }finally {
+                // Fermeture de la connexion à la BDD
+                if(livreDao != null) {
+                    livreDao.closeDatabase();
+                }
+            }
+
         } else if(media instanceof CD) {
             toast = Toast.makeText(this, "Enregistrer CD...", Toast.LENGTH_SHORT);
         }
