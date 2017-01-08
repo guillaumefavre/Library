@@ -4,17 +4,20 @@
 
     <string name="hello_world">Welcome in Library !</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_ajout">AjoutActivity</string>
+    <string name="action_livre">Livre</string>
+    <string name="action_cd">CD</string>
+    <string name="action_dvd">DVD</string>
 
     <string-array name="types_medias_array">
         <item>Livre</item>
         <item>CD</item>
-        <item>DVD</item>
+        <!--<item>DVD</item>-->
     </string-array>
     <string name="title_activity_liste_cd">CDs</string>
     <string name="title_activity_scan_cab">ScanCABActivity</string>
     <string name="title_activity_liste_livres">Livres</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_commun">CommunActivity</string>
+    <string name="title_activity_ajout">Ajout manuel</string>
 
 </resources>

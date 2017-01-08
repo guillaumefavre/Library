@@ -2,17 +2,22 @@ package com.example.guillaume.library;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guillaume.library.Constantes.Constantes;
+import com.example.guillaume.library.Metier.AbstractLibraryElement;
+import com.example.guillaume.library.Metier.CD;
+import com.example.guillaume.library.Metier.Livre;
 
 public class AjoutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -58,6 +63,11 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
         spinnerTypesMedias.setOnItemSelectedListener(this);
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // On indique à la toolbar d'agir comme une actionbar
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
     }
 
     @Override
@@ -75,11 +85,66 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_enregistrer) {
+            String media = String.valueOf(spinnerTypesMedias.getSelectedItem());
+
+            traitementSaisie(media);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Traitement de la saisie du nouveau media ajouté
+     *
+     * @param media
+     */
+    private void traitementSaisie(String media) {
+        switch (media) {
+            case "Livre":
+                EditText edtAuteurLivre = (EditText) findViewById(R.id.layoutLivre_auteur);
+                EditText edtTitreLivre = (EditText) findViewById(R.id.layoutLivre_titre);
+
+                Livre livre = new Livre();
+                livre.setAuteur(edtAuteurLivre.getText().toString());
+                livre.setTitre(edtTitreLivre.getText().toString());
+
+                enregistrerMedia(livre);
+                break;
+            case "CD":
+                EditText edtArtisteCd = (EditText) findViewById(R.id.layoutCd_artiste);
+                EditText edtTitreCd = (EditText) findViewById(R.id.layoutCd_titre);
+                EditText edtAnneeCd = (EditText) findViewById(R.id.layoutCd_titre);
+
+                CD cd = new CD();
+                cd.setArtiste(edtArtisteCd.getText().toString());
+                cd.setTitreAlbum(edtTitreCd.getText().toString());
+                cd.setDateSortie(edtAnneeCd.getText().toString());
+
+                enregistrerMedia(cd);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Enregistrement du nouveau media en base
+     *
+     * @param media
+     */
+    private void enregistrerMedia(AbstractLibraryElement media) {
+        Toast toast = null;
+
+        if(media instanceof Livre) {
+            toast = Toast.makeText(this, "Enregistrer livre...", Toast.LENGTH_SHORT);
+        } else if(media instanceof CD) {
+            toast = Toast.makeText(this, "Enregistrer CD...", Toast.LENGTH_SHORT);
+        }
+
+        toast.show();
     }
 
     @Override

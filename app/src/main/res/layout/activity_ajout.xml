@@ -9,6 +9,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.guillaume.library.AjoutActivity">
 
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
         android:id="@+id/layoutLigneSelectionType"
         android:layout_width="match_parent"
@@ -36,16 +38,19 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/layoutCd_artiste"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Artiste" />
 
         <EditText
+            android:id="@+id/layoutCd_titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Titre de l'album" />
 
         <EditText
+            android:id="@+id/layoutCd_annee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Année" />
@@ -58,19 +63,16 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/layoutLivre_auteur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Auteur" />
 
         <EditText
+            android:id="@+id/layoutLivre_titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Titre de l'album" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Année" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,16 +82,19 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/layoutDvd_titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Titre" />
 
         <EditText
+            android:id="@+id/layoutDvd_realisateur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Réalisateur" />
 
         <EditText
+            android:id="@+id/layoutDvd_annee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Année" />
