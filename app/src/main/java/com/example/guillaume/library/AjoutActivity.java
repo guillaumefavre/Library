@@ -25,6 +25,8 @@ import com.example.guillaume.library.Metier.Livre;
 import com.example.guillaume.library.Utils.BitmapUtils;
 import com.example.guillaume.library.Utils.FormatUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class AjoutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
@@ -113,26 +115,44 @@ public class AjoutActivity extends AppCompatActivity implements AdapterView.OnIt
                 EditText edtAuteurLivre = (EditText) findViewById(R.id.layoutLivre_auteur);
                 EditText edtTitreLivre = (EditText) findViewById(R.id.layoutLivre_titre);
 
-                Livre livre = new Livre();
-                livre.setAuteur(edtAuteurLivre.getText().toString());
-                livre.setTitre(edtTitreLivre.getText().toString());
+                if(StringUtils.isBlank(edtAuteurLivre.getText().toString())) {
+                    Toast toast = Toast.makeText(this, "Vous devez saisir un auteur", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if(StringUtils.isBlank(edtTitreLivre.getText().toString())) {
+                    Toast toast = Toast.makeText(this, "Vous devez saisir un titre", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Livre livre = new Livre();
+                    livre.setAuteur(edtAuteurLivre.getText().toString());
+                    livre.setTitre(edtTitreLivre.getText().toString());
 
-                // Couverture par défaut
-                Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_inconnu);
-                livre.setCouverture(BitmapUtils.convertBitmapEncodedBase64String(bitmap));
-                enregistrerMedia(livre);
+                    // Couverture par défaut
+                    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_inconnu);
+                    livre.setCouverture(BitmapUtils.convertBitmapEncodedBase64String(bitmap));
+                    enregistrerMedia(livre);
+                }
+
                 break;
             case "CD":
                 EditText edtArtisteCd = (EditText) findViewById(R.id.layoutCd_artiste);
                 EditText edtTitreCd = (EditText) findViewById(R.id.layoutCd_titre);
                 EditText edtAnneeCd = (EditText) findViewById(R.id.layoutCd_titre);
 
-                CD cd = new CD();
-                cd.setArtiste(edtArtisteCd.getText().toString());
-                cd.setTitreAlbum(edtTitreCd.getText().toString());
-                cd.setDateSortie(edtAnneeCd.getText().toString());
+                if(StringUtils.isBlank(edtArtisteCd.getText().toString())) {
+                    Toast toast = Toast.makeText(this, "Vous devez saisir un nom d'artiste", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if(StringUtils.isBlank(edtTitreCd.getText().toString())) {
+                    Toast toast = Toast.makeText(this, "Vous devez saisir un titre", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    CD cd = new CD();
+                    cd.setArtiste(edtArtisteCd.getText().toString());
+                    cd.setTitreAlbum(edtTitreCd.getText().toString());
+                    cd.setDateSortie(edtAnneeCd.getText().toString());
 
-                enregistrerMedia(cd);
+                    enregistrerMedia(cd);
+                }
+
                 break;
             default:
                 break;
